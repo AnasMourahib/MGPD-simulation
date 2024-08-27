@@ -1,0 +1,917 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{bbm}
+\usepackage{threeparttable}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Mixture Hüsler--Reiss},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Mixture Hüsler--Reiss}
+\author{}
+\date{\vspace{-2.5em}\today}
+
+\begin{document}
+\maketitle
+
+\newcommand{\GP}{\operatorname{GP}}  
+\newcommand{\Gumbel}{\operatorname{Gumbel}}  
+\newcommand{\supp}{\operatorname{supp}} 
+\newcommand{\MEV}{\operatorname{MEV}}
+
+\newcommand\myeq{\stackrel{\mathclap{\normalfont\mbox{a.s}}}{=}}
+
+\newcommand{\expec}{\operatorname{E}}
+
+\newcommand{\indep}{\perp \!\!\! \perp}
+\newcommand{\Mb}{\mathcal{M}_{b}}
+\newcommand{\Cb}{\mathcal{C}_{b}}
+\newcommand{\Co}{\mathcal{C}_{0}}
+\newcommand{\Mo}{\mathcal{M}_{0}}
+\newcommand{\normun}{\|\,\cdot\,\|_1}
+\newcommand{\norminfty}{\|\,\cdot\,\|_{\infty}}
+\newcommand{\norm}{\|\,\cdot\,\|}
+\newcommand{\GEV}{\operatorname{GEV}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\indicator}{\operatorname{\mathbbm{1}}}
+\newcommand{\DA}{\operatorname{DA}} 
+\newcommand{\ninf}[1]{\left\|{#1}\right\|_{\infty}}
+\newcommand{\cone}{\mathcal{C}}
+\newcommand{\point}{\,\cdot\,}
+\newcommand{\UIj}{\boldsymbol{U}_{\mid I_j}}
+\newcommand{\TIj}{\boldsymbol{T}_{\mid I_j}}
+\newcommand{\Fr}{\operatorname{Fr}}   
+\newcommand{\tg}{\operatorname{tg}} 
+\newcommand{\stdf}{\operatorname{stdf}}
+\newcommand{\card}{\operatorname{Card}}
+
+\newcommand{\RR}{\mathbb{R}} 
+\newcommand{\bo}[1]{\boldsymbol{#1}} 
+\newcommand{\diff}{\, \textnormal{d}} 
+\newcommand{\eqd}{\overset{\textnormal{d}}{=}} 
+\newcommand{\dto}{\overset{\textnormal{d}}{\rightarrow}}
+
+\newcommand{\vX}{\vc{X}} 
+\newcommand{\vx}{\vc{x}}
+\newcommand{\eps}{\epsilon}
+\newcommand{\borel}{\mathcal{B}}
+\newcommand{\sphere}{\mathbb{S}}
+
+\newcommand{\Ea}{\mathbb{E}_I}
+\newcommand{\Eb}{\mathbb{E}_{I,r,\|\, \cdot\,\|}}
+\newcommand{\Ec}{ \mathbb{S}_{\|\, \cdot\,\|}}
+\newcommand{\Ed}{\mathbb{S}_{I, \|\, \cdot\,\|}}
+\newcommand{\itemQ}{%
+    \addtocounter{Qx}{1}
+    \item[Q\theQx.]}
+\newcommand{\am}[1]{\textcolor{red}{\small\sffamily [#1]}}
+
+\newcommand{\bS}{\boldsymbol{S}}
+\newcommand{\bt}{\boldsymbol{t}}
+\newcommand{\bu}{\boldsymbol{u}}
+\newcommand{\bU}{\boldsymbol{U}}
+\newcommand{\bV}{\boldsymbol{V}}
+\newcommand{\bw}{\boldsymbol{w}}
+\newcommand{\bW}{\boldsymbol{W}}
+\newcommand{\bx}{\boldsymbol{x}}
+\newcommand{\bX}{\boldsymbol{X}}
+\newcommand{\bM}{\boldsymbol{M}}
+\newcommand{\by}{\boldsymbol{y}}
+\newcommand{\bY}{\boldsymbol{Y}}
+\newcommand{\bz}{\boldsymbol{z}}
+\newcommand{\bZ}{\boldsymbol{Z}}
+\newcommand{\ba}{\boldsymbol{a}}
+\newcommand{\bb}{\boldsymbol{b}}
+\newcommand{\binfty}{\boldsymbol{\infty}}
+\newcommand{\bzero}{\boldsymbol{0}}
+\newcommand{\bone}{\boldsymbol{1}}
+\newcommand{\bgamma}{\boldsymbol{\gamma}}
+\newcommand{\HR}{Hüsler--Reiss}
+\newcommand{\bT}{\boldsymbol{T}}
+\newcommand{\bsigma}{\boldsymbol{\sigma}}
+\newcommand{\bpi}{\boldsymbol{\pi}}
+\newcommand{\bmu}{\boldsymbol{\mu}}
+\newcommand{\balpha}{\boldsymbol{\alpha}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\Rd}{\reals^d}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\phinorm}{\phi_{\|\,\cdot\,\|}}
+\newcommand{\simplex}{\mathbb{S}_{\|\,\cdot\,\|}}
+
+\definecolor{navyblue}{rgb}{0.0, 0.0, 0.5}
+\definecolor{darkcerulean}{rgb}{0.03, 0.27, 0.49}
+\definecolor{burntorange}{rgb}{0.8, 0.33, 0.0}
+\definecolor{britishracinggreen}{rgb}{0.0, 0.26, 0.15}
+\definecolor{alizarin}{rgb}{0.82, 0.1, 0.26}
+\newcommand{\js}[1]{\textcolor{navyblue}{\sffamily\footnotesize [#1]}}
+\newcommand{\ak}[1]{\textcolor{olive}{\sffamily\footnotesize [#1]}}
+\newcommand{\ltx}[1]{\textcolor{darkcerulean}{\sffamily\footnotesize [#1]}}
+\newcommand{\wrt}[1]{\textcolor{britishracinggreen}{\sffamily\footnotesize [#1]}}
+\newcommand{\cnt}[1]{\textcolor{burntorange}{\sffamily\footnotesize [#1]}}
+\newcommand{\red}[1]{\textcolor{alizarin}{\sffamily\footnotesize [#1]}}
+\newcommand{\todo}[1]{\textcolor{burntorange}{\sffamily\footnotesize [TODO: #1]}}
+
+\newcommand{\Normal}{\mathcal{N}}
+\newcommand{\matrice}{\mathcal{M}}
+
+\newcommand{\pr}{\Pr}
+
+Let \(A=(a_{ij})_{i\leq d, j \leq k} \in \mathcal{M}_{d,k}([0,1])\) be a
+matrix such that \(\sum_{j=1}^{k} a_{ij}=1\) for all
+\(j\in \{1,\ldots,k\}\). For \(j \in \{1,\ldots,k\}\), let
+\(\boldsymbol{U}^{(j)} \sim \mathcal{N}(-(1/2)\operatorname{diag}(\Sigma^{(j)}), \Sigma^{(j)})\)
+where \(\Sigma^{(j)}\in \mathbb{M}_{d,d}(\mathbb{R})\) is a positive
+semidefinite matrix. Let
+\(\boldsymbol{Z}^{(1)},\ldots,\boldsymbol{Z}^{(k)}\) be independent
+random vectors that follow multivariate evd's with unit Fréchet margins
+and a dependence structure generated by
+\(\boldsymbol{U}^{(1)},\ldots,\boldsymbol{U}^{(k)}\), respectively.
+Consider \[
+\begin{aligned}
+\boldsymbol{M}=\left(\max_{j=1}^{k} a_{1j}Z_{1}^{(j)}, \ldots,\max_{j=1}^{k} a_{dj}Z_{d}^{(j)}\right).
+\end{aligned}
+\] The random vector \(\boldsymbol{M}\) follows a multivariate evd which
+we will denote \(G_M\). Consider \(H=\operatorname{GP}(G_M)\) the mgpd
+associated to \(G_M\) after changing the location parameter so that
+\(G_M(\boldsymbol{0})>0\). Let \(\ell\) denote the stdf associated to
+the latter function. We have proved that the random vector
+\(\boldsymbol{U}_{\text{Mix},A}\) defined in
+\([-\boldsymbol{\infty},\boldsymbol{\infty})\) by \begin{equation}
+         \Pr(\boldsymbol{U}_{\text{Mix},A} \in B)= \sum_{j=1}^{k} \pi_j \Pr\left(\boldsymbol{U}^{(j)}+\ln(\boldsymbol{a}_{\,\cdot\,j}/ \pi_j) \in B\right), \qquad B \in \mathcal{B}([-\boldsymbol{\infty},\boldsymbol{\infty}))
+         \label{equationgeneralgenerator}
+    \end{equation} is a generator of \(\ell\). To simplify notation,
+write \(\boldsymbol{U}_{\text{Mix},A}=\boldsymbol{U}\). Let
+\(\boldsymbol{T}\) be a \(\boldsymbol{T}\)-representation of \(H\). For
+\(j=1,\ldots,k\), write \(I_{j}=\{i \in \{1,\ldots,d\}: a_{ij}>0\}\) the
+signature of the \(j\)-th column from \(A\). In the following, for
+\(\boldsymbol{X}\) a \(d\)-variate random vector with lower endpoints
+\(\kappa_1,\ldots,\kappa_d\) and \(\emptyset \neq I \subset D\) such
+that \(\Pr[X_i>\kappa_i \text{ iff } \in I]>0\), let
+\(\boldsymbol{X}_{\mid I}\) denote a \(\lvert I \rvert\)-variate random
+vector on \(\prod_{i \in I} (\kappa_i,\infty)\) such that
+\(\mathcal{L}(\boldsymbol{X}_{\mid I})= \mathcal{L}(\boldsymbol{X}_{I} \mid X_i>\kappa_i \text{ iff } i \in I)\).
+
+\section{ Determine $\mathcal{L}(\boldsymbol{U}_{I_{j}})$ }
+\label{sec:LawofU}
+
+Let \(j_0 \in \{1,\ldots,k\}\). For
+\(B \in \mathcal{B}( (-\infty,\infty)^{\lvert I_{j_0} \rvert} )\), we
+have
+
+\[
+\begin{aligned}
+\Pr(\boldsymbol{U}_{\mid I_{j_0}}  \in B)
+&:= \Pr(\boldsymbol{U}_{I_{j_0}} \in B \mid U_i>-\infty \text{ iff } i \in I_{j_0}  )\\
+&=\frac{ \Pr(\{\boldsymbol{U}_{I_{j_0}} \in B\} \cap \{U_i>-\infty \text{ iff } i \in I_{j_0}\}    )  }{  \Pr(U_i>-\infty \text{ iff } i \in I_{j_0}) }\\
+&=\frac{ \sum_{j=1}^k \tfrac{1}{k} \Pr\left( \{ (U_{i}^{(j)} +\ln(ka_{i,j}) )_{i \in I_j} \in B \} \cap \{U_{i}^{(j)}+\ln(k a_{i,j})>-\infty \text{ iff } i \in I_{j_0}\}  \right) }{ \frac{1}{k}   }\\
+&=\frac{ \tfrac{1}{k} \Pr( (U_{i}^{(j_0)} +\ln ka_{i,j_0})_{i \in I_{j_0}} \in B ) }{ \frac{1}{k}   }\\
+&= \Pr( (U_{i}^{(j_0)} +\ln ka_{i,j_0})_{i \in I_{j_0}} \in B ).
+\end{aligned}
+\] This proves that \begin{equation}
+\mathcal{L}(\boldsymbol{U}_{\mid I_{j_0}}) \sim \mathcal{N}\left\{\left(-(1/2) \Sigma_{i,i}^{(j_0)} +\ln k  a_{i,j_0}\right)_{i \in I_{j_0}}, \Sigma^{(j_0)}_{I_{j_0}} \right\},
+\label{equa:lawofU}
+\end{equation}
+
+where \(\Sigma^{(j_0)}_{I_{j_0}}\) drops the irrelevant rows from
+\(\Sigma^{(j_0)}\).
+
+\section{Calculus of $\mathbb{P}[T_i>-\infty \text{ iff } i \in I_j], \; j=1,\ldots,k$}
+
+Let \(j_0 \in \{1,\ldots,k\}\). We have \[
+\begin{aligned}
+\Pr[T_i>-\infty \text{ iff } i \in I_{j_0} ]
+&=\frac{\operatorname{E}[e^{\max (\boldsymbol{U})} \operatorname{\mathbbm{1}}\{U_i>-\infty \text{ iff } i \in I_{j_0}\} ]}{\operatorname{E}[e^{\max (\boldsymbol{U})} ]}\\
+&=\frac{\sum_{j=1}^{k} \tfrac{1}{k} \operatorname{E}\left[ e^{\max(U_{i}^{(j)} +\ln (a_{i,j}k), \; i=1,\ldots,d )} \operatorname{\mathbbm{1}}\{U_{i}^{(j)}+\ln (a_{i,j}k) >-\infty \text{ iff }i \in I_{j_0}    \}  \right]}{\sum_{j=1}^{k} \tfrac{1}{k} \operatorname{E}\left[ e^{\max(U_{i}^{(j)} +\ln (a_{i,j}k), \; i=1,\ldots,d )}   \right]   }\\
+&=\frac{ \operatorname{E}[e^{\max(U_{i}^{(j_0)} +\ln(a_{i,j_0} k), \; i \in I_{j_0} ) }] }{ \sum_{j=1}^{k} \operatorname{E}[e^{\max(U_{i}^{(j)} +\ln(a_{i,j} k), \; i \in I_{j} ) }] }\\
+&=\frac{\operatorname{E}[e^{\max \boldsymbol{U}_{\mid I_{j_0}}}]}{ \sum_{j=1}^k \operatorname{E}[e^{\max \boldsymbol{U}_{\mid I_{j}}}] },
+\end{aligned}
+\]
+
+Equation\textasciitilde{}\eqref{equa:lawofU} yields
+
+\begin{equation}
+\Pr[T_i>-\infty \text{ iff } i \in I_{j_0} ]=\frac{\operatorname{E}[e^{\max \boldsymbol{U}_{\mid I_{j_0}}}]}{ \sum_{j=1}^k \operatorname{E}[e^{\max \boldsymbol{U}_{\mid I_{j}}}] }. \label{equa:T}
+\end{equation}
+
+\section{Calculus of $\operatorname{E}[e^{\max \boldsymbol{U}_{\mid I_j}}], \; j=1,\ldots,k$}
+
+Let \(j \in \{1,\ldots,k\}\) . Let \(\Tilde{\Gamma}\) be the matrix in
+\(\mathbb{M}_{d,d}(\mathbb{R})\) whose \((s,t)\)-th entry
+\(\Tilde{\gamma}_{s,t}\) is
+\((\Sigma^{(j)}_{s,s}/2)+ (\Sigma^{(j)}_{t,t}/2)-\Sigma^{(j)}_{s,t}\) if
+\(s\neq t\) and \(\Sigma^{(j)}_{s,t}/2\) if \(s=t\). We get \[
+\begin{aligned}
+\mathbb{E}\left[e^{\max \boldsymbol{U}_{\mid I_j} }\right]
+&=\mathbb{E}\left[\max\left( \frac{e^{\epsilon_{i} -\Tilde{\gamma}_{ii}}}{z_i }, \; i \in I_{j}\right)\right],
+\end{aligned}
+\] where
+\(\epsilon \sim \mathcal{N}(\boldsymbol{0}, \Sigma_{I_j}^{(j)} )\), and
+\(z_i=(a_{ij}k)^{-1}, \; i \in I_j\). If \(I_j= \{i\}\) (that is the
+\(j\)-th column has only one non-zero row), then this is equal to
+\(ka_{i j}\). If \(I_j=\{i_1,i_2\}\), then this is equal to
+
+\[
+ka_{i_1j}\Phi\left(\frac{(2\Tilde{\gamma}_{12})^{1/2}}{2} - \frac{1}{(2\Tilde{\gamma}_{12})^{1/2}} \log \frac{a_{i_2j}}{a_{i_1j}}\right)+
+ka_{i_2j}\Phi\left(\frac{(2\Tilde{\gamma}_{12})^{1/2}}{2} - \frac{1}{(2\Tilde{\gamma}_{12})^{1/2}} \log \frac{a_{i_1j}}{a_{i_2j}}\right).
+\]
+
+Finally if \(\lvert I_j \rvert >2\) then this is equal to \[
+\begin{aligned}
+\sum_{i \in I_j}\frac{1}{z_i} \Phi_{p_j-1}(\eta_i, R_i),
+\end{aligned}
+\] where \(p_{j}= \lvert I_j \rvert\) and \(\boldsymbol{\eta}_{i}\) is
+the \((p_{j}-1)\)-dimensional vetor with \(s\)-th component
+\((\Tilde{\gamma}_{i,s}/2)^{1/2}-\log(z_s/z_i)/(2\Tilde{\gamma}_{i,s})^{1/2} \; (s \neq i)\).
+The Function \(\Phi_{p_j}(\cdot, R)\) denotes the cdf of the
+\(p_j\)-variate normal distribution function with mean
+\(\boldsymbol{0}\), unit variance and correlation matrix \(R\), and
+finally \(R_i\) is the \((p_j-1) \times (p_j-1)\) correlation matrix
+with \((s,t)\)-th entry
+\((\Tilde{\gamma}_{i,s}+\Tilde{\gamma}_{i,t}-\Tilde{\gamma}_{s,t})/\{2(\Tilde{\gamma}_{i,s}\Tilde{\gamma}_{i,t})^{1/2}\}\; (s,t \neq i)\).
+
+\section{To simulate}
+
+Suppose that \(\boldsymbol{T}_{\mid I_j}\) is absolutely continuous
+w.r.t.~\(\lambda_{p_j}\) with density \(f_{\boldsymbol{T}_{\mid I_j}}\)
+for all \(j \in \{1,\ldots,k\}\). The random vector \(\boldsymbol{T}\)
+is then also absolutely continuous w.r.t.~a measure \(\upsilon\) (See
+Article 2 for more details). The associated density is then given by \[
+f_{\boldsymbol{T}}(\boldsymbol{t})= \sum_{j=1}^{k} \Pr[T_i>-\infty \text{ iff } i \in I_j] \cdot f_{\boldsymbol{T} _{\mid I_j}}((t_i)_{i \in I_j}).
+\] Let \(j \in \{1,\ldots,k\}\). From the one hand, using
+Expression\textasciitilde{}\eqref{equa:T} of
+\(\Pr[T_i>-\infty \text{ iff } i\in I_j]\) we have \[
+\begin{aligned}
+\frac{\Pr[U_i>-\infty \text{ iff } i \in I_j]}{ \Pr[T_i>-\infty \text { iff } i \in I_j] \operatorname{E}[e^{\max \boldsymbol{U}}] }
+&=\frac{1/k}{ \tfrac{\operatorname{E}[e^{\max \boldsymbol{U}_{\mid I_{j}}}]}{\sum_{l=1}^k \operatorname{E}[e^{\max \boldsymbol{U}_{\mid I_{l}}}] } \operatorname{E}[e^{\max \boldsymbol{U}}]  }\\
+&=\frac{1}{ \tfrac{\operatorname{E}[e^{\max \boldsymbol{U}_{\mid I_{j}}}]}{\sum_{l=1}^k \tfrac{1}{k} \operatorname{E}[e^{\max \boldsymbol{U}_{\mid I_{l}}}] } \operatorname{E}[e^{\max \boldsymbol{U}}]  }\\
+&=\frac{1}{ \tfrac{\operatorname{E}[e^{\max \boldsymbol{U}_{\mid I_{j}}}]}{\operatorname{E}[e^{\max \boldsymbol{U}}]} \operatorname{E}[e^{\max \boldsymbol{U}}]  }\\
+&=\frac{1}{\operatorname{E}[e^{\max \boldsymbol{U}_{\mid I_{j}}}]}.
+\end{aligned}
+\]
+
+On the other hand, we know that
+\(\boldsymbol{U}_{\mid I_j} \sim \mathcal{N}\left\{(-\tfrac{1}{2} \Sigma^{(j)}_{i,i} +\ln k a_{i,j})_{i \in I_j}, \Sigma^{(j)}_{I_j}\right\}\),
+thus for \(i \in I_j\) we have
+\(\int_{\boldsymbol{s} \in \mathbb{R}^{p_j}} e^{s_i} f_{\boldsymbol{U}_{\mid I_j} } (\boldsymbol{s})\, \textnormal{d}\boldsymbol{s}=\operatorname{E}[e^{(\boldsymbol{U}_{\mid I_j})_i}]=ka_{i,j}\).
+Hence we get \[
+C=\tfrac{\Pr[U_i>-\infty \text{ iff } i \in I_j] \sum_{i \in I_j}  \int_{\boldsymbol{s} \in \mathbb{R}^{p_j}} e^{s_i} f_{\boldsymbol{U}_{\mid I_j}} (\boldsymbol{s})\, \textnormal{d}\boldsymbol{s} }{\Pr[T_i>-\infty \text{ iff } i \in I_j] \operatorname{E}[e^{\max (\boldsymbol{U})}] }
+=\tfrac{\sum_{i \in I_j}  \int_{\boldsymbol{s} \in \mathbb{R}^{p_j}} e^{s_i} f_{\boldsymbol{U}_{\mid I_j}} (\boldsymbol{s})\, \textnormal{d}\boldsymbol{s}}{\operatorname{E}[e^{\max U_{\mid I_j}}]}
+=\tfrac{k\sum_{i \in I_j} a_{i,j}}{\operatorname{E}[e^{\max U_{\mid I_j}}]},
+\] The density \(f_{\boldsymbol{T}_{\mid I_j}}\) is then given by \[
+\begin{aligned}
+f_{\boldsymbol{T}_{\mid I_j}}(\boldsymbol{t})
+&=\tfrac{\Pr[U_i>-\infty \text{ iff } i \in I_j] e^{\max( \boldsymbol{t})}}{\Pr[T_i>-\infty \text{ iff } i \in I_j] \operatorname{E}[e^{\max (\boldsymbol{U})}] } f_{\boldsymbol{U}_{\mid I_j}}(\boldsymbol{t})\\
+&=  \tfrac{k\sum_{i \in I_j} a_{i,j}}{\operatorname{E}[e^{\max\boldsymbol{U}_{\mid I_j}}]}   \cdot  \tfrac{e^{\max (\boldsymbol{t})}}{ \sum_{i \in I_j} e^{t_i}} \cdot  \tfrac{\sum_{i \in I_j}  e^{t_i} f_{\boldsymbol{U}_{\mid I_j}} (\boldsymbol{t}) }{\sum_{i \in I_j}  \int_{\boldsymbol{s} \in \mathbb{R}^{p_j}} e^{s_i} f_{\boldsymbol{U}_{\mid I_j}} (\boldsymbol{s})\, \textnormal{d}\boldsymbol{s}}.
+\end{aligned}
+\] Moreover we have \[
+q(\boldsymbol{t})
+=\tfrac{\sum_{i \in I_j}  e^{t_i} f_{\boldsymbol{U}_{\mid I_j}} (\boldsymbol{t}) }{\sum_{i \in I_j}  \int_{\boldsymbol{s} \in \mathbb{R}^{p_j}} e^{s_i} f_{\boldsymbol{U}_{\mid I_j}} (\boldsymbol{s})\, \textnormal{d}\boldsymbol{s}}
+=\sum_{i \in I_j} m_i q_{i}(\boldsymbol{t}),
+\] where for \(i_{0}\) from \(I_j\) we have \[
+m_{i_0}=\tfrac{\int_{\boldsymbol{s} \in \mathbb{R}^{p_j}} e^{s_{i_0}} f_{\boldsymbol{U}_{\mid I_j}} (\boldsymbol{s}) \, \textnormal{d}\boldsymbol{s}}{\sum_{i \in I_j}  \int_{\boldsymbol{s} \in \mathbb{R}^{p_j}} e^{s_i} f_{\boldsymbol{U}_{\mid I_j}} (\boldsymbol{s}) \, \textnormal{d}\boldsymbol{s}}
+=\tfrac{a_{i_0,j}}{\sum_{i \in I_j} a_{i,j}},
+\] and
+\(q_{i_0}(\boldsymbol{t})=\tfrac{e^{t_{i_0}} f_{\boldsymbol{U}_{\mid I_j}} (\boldsymbol{t})}{\int_{\boldsymbol{s} \in \mathbb{R}^{p_j}} e^{s_{i_0}} f_{\boldsymbol{U}_{\mid I_j}} (\boldsymbol{s}) \, \textnormal{d}\boldsymbol{s}},\)
+the density of
+\(\mathcal{N}\left\{(-\tfrac{1}{2} \Sigma^{(j)}_{i,i} +\ln k a_{i,j}+\Sigma^{(j)}_{i,i_0})_{i \in I_j}, \Sigma^{(j)}\right\}\).
+
+We want to simulate from \(f_{\boldsymbol{T}_{\mid I_j}}\) and we do so
+by simulating first \(\boldsymbol{Q}\) from \(q\) and a uniform number
+\(U_0\) on \([0,1]\). We need a uniform upper bound. We have \[
+\sup_{\boldsymbol{t} \in \mathbb{R}^d } \tfrac{f_{\boldsymbol{T}_{\mid I_j}}(t)}{q(\boldsymbol{t})}=C \sup_{\boldsymbol{t} \in \mathbb{R}^d} \tfrac{e^{\max (\boldsymbol{t})}}{\sum_{i=1}^d e^{t_i}}=C=\tfrac{k\sum_{i \in I_j} a_{i,j}}{\operatorname{E}[e^{\max \boldsymbol{U}_{\mid I_j}}]}
+\] Remark that this is smaller than
+\(kd/\operatorname{E}[e^{\max \boldsymbol{U}_{\mid I_j}}]\). This is
+more or less the same bound that we have found for the simple
+Hüsler--Reiss scaled this time by number of columns of the model.
+
+Then we accept \(\boldsymbol{Q}\) as a simulation from
+\(f_{\boldsymbol{T}_{\mid I_j}}\) as soon as
+\(U_{0}\leq f_{\boldsymbol{T}_{\mid I_j}}(\boldsymbol{Q})/(Cq(\boldsymbol{Q}))=e^{\max (\boldsymbol{Q})}/\sum_{i=1}^d e^{Q_i}:=LDEO(Q)\)
+
+\begin{algorithm}[H]
+\caption{  Calculus of $\Tilde{\Gamma}$}\label{alg:cap}
+\begin{algorithmic}[1]
+\Require {$\Sigma$ positive semidefinite symmetric matrix} 
+\Function {matrix\_transformation}{$\Sigma$}
+\State $\Tilde{\Gamma}=(\boldsymbol{1}\operatorname{diag}(\Sigma)^{t})/2+(\operatorname{diag}(\Sigma)\boldsymbol{1}^t)/2-\Sigma$
+\State $\operatorname{diag}(\Tilde{\Gamma})=\operatorname{diag}(\Sigma)/2$
+\State return($\Tilde{\Gamma}$)
+\Comment{This is slightly different from the variogram matrix $\Gamma$, multiplying $\Tilde{\Gamma}$ by $2$ and setting its diagonal to $0$ gives $\Gamma$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{matrix\_transformation }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(Sigma) \{}
+\NormalTok{  gamma }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{as.matrix}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(Sigma))) }\SpecialCharTok{\%*\%} \FunctionTok{diag}\NormalTok{(Sigma)) }\SpecialCharTok{/} \DecValTok{2} \SpecialCharTok{+}\NormalTok{ (}\FunctionTok{as.matrix}\NormalTok{(}\FunctionTok{diag}\NormalTok{(Sigma)) }\SpecialCharTok{\%*\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(Sigma))) }\SpecialCharTok{/} \DecValTok{2} \SpecialCharTok{{-}}\NormalTok{ Sigma}
+  \FunctionTok{diag}\NormalTok{(gamma) }\OtherTok{\textless{}{-}} \FunctionTok{diag}\NormalTok{(Sigma) }\SpecialCharTok{/} \DecValTok{2}
+  \FunctionTok{return}\NormalTok{(gamma)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{algorithm}[H]
+\caption{ Calculus of $\boldsymbol{\eta_i}$ For $\boldsymbol{U} \sim \mathcal{N}(\boldsymbol{\mu},\Sigma)$ such that $matrix\_transformation(\Sigma)=\Gamma$, and $i \in \{1,\ldots,d\}$}\label{alg:cap}
+\begin{algorithmic}[1]
+\Require {$\Gamma=(\gamma_{s,t})_{s,t\leq d} \in \mathcal{M}_{d,d}(\mathbb{R})$, $\boldsymbol{\mu} \in \mathbb{R}^d$, and $i \in \{1,\dots,d\}$} \Comment{$d$ is not a parameter}
+\Function {calculus\_of\_eta}{$i,\boldsymbol{\mu},\Gamma$}
+\State $\boldsymbol{\eta_i}=\left((\gamma_{i,s}/2)^{1/2}+\tfrac{(\gamma_{i,i}-\gamma_{s,s}+\mu_i-\mu_s)}{(2\gamma_{i,s})^{1/2}}\right)_{s \neq i}$
+\State return($\boldsymbol{\eta_i}$)
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calculus\_of\_eta }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(i, mu, gamma) \{}
+\NormalTok{  eta }\OtherTok{\textless{}{-}}\NormalTok{ (gamma[i, }\SpecialCharTok{{-}}\NormalTok{i] }\SpecialCharTok{/} \DecValTok{2}\NormalTok{)}\SpecialCharTok{\^{}}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ (mu[i] }\SpecialCharTok{+} \FunctionTok{diag}\NormalTok{(gamma)[i] }\SpecialCharTok{{-}}\NormalTok{ mu[}\SpecialCharTok{{-}}\NormalTok{i] }\SpecialCharTok{{-}} \FunctionTok{diag}\NormalTok{(gamma)[}\SpecialCharTok{{-}}\NormalTok{i]) }\SpecialCharTok{/}\NormalTok{ (}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ gamma[i, }\SpecialCharTok{{-}}\NormalTok{i])}\SpecialCharTok{\^{}}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{)}
+  \FunctionTok{return}\NormalTok{(eta)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{algorithm}[H]
+\caption{ Calculus of $R_i$ for $i \in \{1,\ldots,d\}$}\label{alg:cap}
+\begin{algorithmic}[1]
+\Require {$\Gamma=(\gamma_{s,t})_{s,t\leq d} \in \mathcal{M}_{d,d}(\mathbb{R})$, $\boldsymbol{\mu} \in \mathbb{R}^d$, and $i \in \{1,\dots,d\}$} \Comment{$d$ is not a paramater}
+\Function {calculus\_of\_R}{$i,\Gamma$}
+\State Define $R \in \mathcal{M}_{d-1,d-1}(\mathbb{R})$ 
+\State $R[s,t]=\tfrac{\gamma_{i,s}+\gamma_{i,t}-\gamma_{s,t}}{\{2(\gamma_{i,s} \gamma_{i,t})^{1/2}\}}, \; s,t \neq i$
+\State $\operatorname{diag}(R)=1$
+\State return($R$)
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calculus\_of\_R }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(i, gamma) \{}
+\NormalTok{  R }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{as.matrix}\NormalTok{(gamma[i, }\SpecialCharTok{{-}}\NormalTok{i]) }\SpecialCharTok{\%*\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(gamma) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{t}\NormalTok{(}\FunctionTok{as.matrix}\NormalTok{(gamma[i, }\SpecialCharTok{{-}}\NormalTok{i]) }\SpecialCharTok{\%*\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(gamma) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)) }\SpecialCharTok{{-}}\NormalTok{ gamma[}\SpecialCharTok{{-}}\NormalTok{i, }\SpecialCharTok{{-}}\NormalTok{i]) }\SpecialCharTok{/}\NormalTok{ (}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ (}\FunctionTok{as.matrix}\NormalTok{(gamma[i, }\SpecialCharTok{{-}}\NormalTok{i]) }\SpecialCharTok{\%*\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(gamma) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \FunctionTok{t}\NormalTok{(}\FunctionTok{as.matrix}\NormalTok{(gamma[i, }\SpecialCharTok{{-}}\NormalTok{i]) }\SpecialCharTok{\%*\%} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(gamma) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)))}\SpecialCharTok{\^{}}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{))}
+  \FunctionTok{diag}\NormalTok{(R) }\OtherTok{\textless{}{-}} \DecValTok{1}
+  \FunctionTok{return}\NormalTok{(R)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{algorithm}[H]
+\caption{ Calculus of $\operatorname{E}[e^{\max(\boldsymbol{U})}]$ for $\boldsymbol{U}$ a bivariate Gaussian $\mathcal{N}(\boldsymbol{\mu},\Sigma)$ with Transform\_matrix($\Sigma$)=$\Gamma$}\label{alg:cap}
+\begin{algorithmic}[1]
+\Require {$\Gamma=(\gamma_{s,t})_{s,t\leq d} \in \mathcal{M}_{d,d}(\mathbb{R})$, $\boldsymbol{\mu} \in \mathbb{R}^d$}  \Comment{$d$ is not a paramater}
+\Function {case\_d\_2}{$\boldsymbol{\mu},\Gamma$}
+\State $expec=e^{\gamma_{1,1}+\mu_1}\Phi\left( \tfrac{(2\gamma_{12})^{1/2}}{2}-\tfrac{-\mu_1+\mu_2-\gamma_{1,1}+\gamma_{2,2}}{(2 \gamma_{1,2})^{1/2}}\right)+ e^{\gamma_{2,2}+\mu_2}\Phi\left( \tfrac{(2\gamma_{12})^{1/2}}{2}-\tfrac{-\mu_2+\mu_2-\gamma_{2,2}+\gamma_{1,1}}{(2 \gamma_{1,2})^{1/2}}\right) $
+\State return(expec)
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{case\_d\_2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(mu, Gamma) \{}
+\NormalTok{  expec }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(mu[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{+} \FunctionTok{diag}\NormalTok{(Gamma)[}\DecValTok{1}\NormalTok{]) }\SpecialCharTok{*} \FunctionTok{pnorm}\NormalTok{(((}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ Gamma[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{])}\SpecialCharTok{\^{}}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{)) }\SpecialCharTok{/}\NormalTok{ (}\DecValTok{2}\NormalTok{) }\SpecialCharTok{{-}}\NormalTok{ ((mu[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ mu[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ (}\FunctionTok{diag}\NormalTok{(Gamma)[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}} \FunctionTok{diag}\NormalTok{(Gamma)[}\DecValTok{1}\NormalTok{])) }\SpecialCharTok{/}\NormalTok{ ((}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ Gamma[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{])}\SpecialCharTok{\^{}}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{))), }\AttributeTok{mean =} \DecValTok{0}\NormalTok{, }\AttributeTok{sd =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{exp}\NormalTok{(mu[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{+} \FunctionTok{diag}\NormalTok{(Gamma)[}\DecValTok{2}\NormalTok{]) }\SpecialCharTok{*} \FunctionTok{pnorm}\NormalTok{(((}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ Gamma[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{])}\SpecialCharTok{\^{}}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{)) }\SpecialCharTok{/}\NormalTok{ (}\DecValTok{2}\NormalTok{) }\SpecialCharTok{{-}}\NormalTok{ ((mu[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ mu[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ (}\FunctionTok{diag}\NormalTok{(Gamma)[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}} \FunctionTok{diag}\NormalTok{(Gamma)[}\DecValTok{2}\NormalTok{])) }\SpecialCharTok{/}\NormalTok{ ((}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ Gamma[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{])}\SpecialCharTok{\^{}}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{))), }\AttributeTok{mean =} \DecValTok{0}\NormalTok{, }\AttributeTok{sd =} \DecValTok{1}\NormalTok{)}
+  \FunctionTok{return}\NormalTok{(expec)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{algorithm}[H]
+\caption{Calculus of $\operatorname{E}[e^{\max (\boldsymbol{U})}]$ for $\boldsymbol{U}$ a $d$-variate $\mathcal{N}(\boldsymbol{\mu}, \Sigma)$}
+\begin{algorithmic}[1]
+\Require {$d, \; \Sigma \in \mathcal{M}_{d,d}(\mathbb{R})$ symmetric positive definite matrix, $\boldsymbol{\mu} \in \mathbb{R}^d$}
+\Function {calculus\_d} {$d,\Sigma,\boldsymbol{\mu}$} 
+\If{$d=1$} 
+    \State return($\exp(\mu+\Sigma/2)$ ) 
+\Else 
+\State expected\_value=0
+\State $\Gamma=matrix\_transformation(\Sigma)$
+\If {$d=2$}
+ \State return( case\_d\_2($\boldsymbol{\mu},\Gamma$)    )
+\Else 
+\For {$i \in \{1,\ldots,d\}$}
+\State $\boldsymbol{\eta_i}=calculus\_of\_eta(i,\boldsymbol{\mu},\Gamma)$
+\State  $R_i=calculus\_of\_R(i,\Gamma)$
+\State expected\_value=expected\_value+ $ e^{\mu_i+\gamma_{i,i}} \Phi_{d-1}(\boldsymbol{\eta_i},R_i)$, where $\Phi_{d-1}(\,\cdot\,, R_i)$ is the $(d-1)$-Gaussian distribution with mean $\boldsymbol{0}$, unit variance and covariance matrix $R_i$ 
+\EndFor
+\EndIf 
+
+\EndIf
+\State return(expected\_value)
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(MASS)}
+\NormalTok{calculus\_d }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(d, Sigma, mu) \{}
+  \ControlFlowTok{if}\NormalTok{ (d }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) \{}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{exp}\NormalTok{(mu }\SpecialCharTok{+}\NormalTok{ (Sigma }\SpecialCharTok{/} \DecValTok{2}\NormalTok{)))}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{    expectedvalue }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{    gamma }\OtherTok{\textless{}{-}} \FunctionTok{matrix\_transformation}\NormalTok{(Sigma)}
+
+    \ControlFlowTok{if}\NormalTok{ (d }\SpecialCharTok{==} \DecValTok{2}\NormalTok{) \{}
+      \FunctionTok{return}\NormalTok{(}\FunctionTok{case\_d\_2}\NormalTok{(mu, gamma))}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
+      \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{d)}
+\NormalTok{      \{}
+        \CommentTok{\# Computing eta}
+\NormalTok{        eta }\OtherTok{\textless{}{-}} \FunctionTok{calculus\_of\_eta}\NormalTok{(i, mu, gamma)}
+        \CommentTok{\# Computing R}
+\NormalTok{        R }\OtherTok{\textless{}{-}} \FunctionTok{calculus\_of\_R}\NormalTok{(i, gamma)}
+\NormalTok{        expectedvalue }\OtherTok{\textless{}{-}}\NormalTok{ expectedvalue }\SpecialCharTok{+} \FunctionTok{exp}\NormalTok{(mu[i] }\SpecialCharTok{+}\NormalTok{ gamma[i, i]) }\SpecialCharTok{*} \FunctionTok{pmvnorm}\NormalTok{(}\AttributeTok{mean =} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, d }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{), }\AttributeTok{corr =}\NormalTok{ R, }\AttributeTok{lower =} \FunctionTok{rep}\NormalTok{(}\SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, d }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{), }\AttributeTok{upper =}\NormalTok{ eta)}
+\NormalTok{      \}}
+      \FunctionTok{return}\NormalTok{(expectedvalue)}
+\NormalTok{    \}}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{algorithm}[H]
+\caption{Test for the function calculus\_d}
+\begin{algorithmic}[1]
+\Function {Test} {$n,\Sigma,\boldsymbol{\mu}$} 
+\Require {$\boldsymbol{\mu} \in \mathbb{R}^d$ and $\Sigma \in \mathcal{M}_{d,d}(\mathbb{R})$}
+\State Simulmate $\boldsymbol{U}^{(1)},\ldots,\boldsymbol{U}^{(n)}$ from $\mathcal{N}(\boldsymbol{\mu},\Sigma)$.
+\State Calculate $s_i=e^{\max(\boldsymbol{U}^{(i)}_{1},\ldots,\boldsymbol{U}^{(i)}_{d} )}$ for $i=1,\ldots,d$. \Comment{I think function $\max$ is easier then $\exp$}
+\State return( $\sum_{i=1}^{n} s_i/n$ )
+\EndFunction
+\State Create a matrix 
+$$
+\begin{aligned}
+\Sigma_1=
+\begin{pmatrix}
+1 & 11/12 & 8/9\\
+11/12 & 1 & 10/11 \\
+8/9 & 10/11 & 1
+\end{pmatrix}
+\end{aligned}
+$$
+\State Create $vector\_test \in \mathbb{R}^{50}$
+\For {i in 1:50}
+\State $vector\_test_i=Test(10^6,\Sigma_1,(0,0,0))$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(MASS)}
+\FunctionTok{library}\NormalTok{(mvtnorm)}
+\NormalTok{Test }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n, d, mup, Sigmap) \{}
+  \ControlFlowTok{if}\NormalTok{ (d }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) \{}
+\NormalTok{    U }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(n, }\AttributeTok{mean =}\NormalTok{ mup, }\AttributeTok{sd =}\NormalTok{ Sigmap)}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{exp}\NormalTok{(U)) }\SpecialCharTok{/}\NormalTok{ n)}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{    U }\OtherTok{\textless{}{-}} \FunctionTok{mvrnorm}\NormalTok{(n, }\AttributeTok{mu =}\NormalTok{ mup, }\AttributeTok{Sigma =}\NormalTok{ Sigmap)}
+\NormalTok{    f }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(t) }\FunctionTok{exp}\NormalTok{(}\FunctionTok{max}\NormalTok{(t))}
+\NormalTok{    s }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(U, }\DecValTok{1}\NormalTok{, f)}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(s) }\SpecialCharTok{/}\NormalTok{ n)}
+\NormalTok{  \}}
+\NormalTok{\}}
+\NormalTok{Sigma\_1 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{, }\AttributeTok{nrow =} \DecValTok{3}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{3}\NormalTok{)}
+\NormalTok{Sigma\_1[}\DecValTok{1}\NormalTok{, ] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{11} \SpecialCharTok{/} \DecValTok{12}\NormalTok{, }\DecValTok{8} \SpecialCharTok{/} \DecValTok{9}\NormalTok{)}
+\NormalTok{Sigma\_1[}\DecValTok{2}\NormalTok{, ] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{11} \SpecialCharTok{/} \DecValTok{12}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{10} \SpecialCharTok{/} \DecValTok{11}\NormalTok{)}
+\NormalTok{Sigma\_1[}\DecValTok{3}\NormalTok{, ] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{8} \SpecialCharTok{/} \DecValTok{9}\NormalTok{, }\DecValTok{10} \SpecialCharTok{/} \DecValTok{11}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{vector\_test }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{50}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{50}\NormalTok{) \{}
+\NormalTok{  vector\_test[i] }\OtherTok{\textless{}{-}} \FunctionTok{Test}\NormalTok{(}\DecValTok{100000}\NormalTok{, }\DecValTok{3}\NormalTok{, }\FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{), Sigma\_1)}
+\NormalTok{\}}
+\FunctionTok{boxplot}\NormalTok{(  vector\_test,  }\AttributeTok{main =} \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Empirical estimation of our expected value based on sample size "}\NormalTok{,}\AttributeTok{N=}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{5}\NormalTok{)),    }\AttributeTok{cex.main=}\FloatTok{0.8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{mixtureHRmonday0215-8--1-_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+This is the value that we obtained using our algorithm
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{calculus\_d}\NormalTok{(}\DecValTok{3}\NormalTok{, Sigma\_1, }\FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.095849
+## attr(,"error")
+## [1] 1e-15
+## attr(,"msg")
+## [1] "Normal Completion"
+\end{verbatim}
+
+The sample size is \(n=10^{5}\), so the standard deviation of our
+emepirical estimator is smaller then \(1/(2\sqrt{10^5})=0.00158\). From
+the boxplot, this is not satisfied.
+
+\begin{algorithm}[H]
+\caption{ mass\_of\_scenario }
+\begin{algorithmic}[1]
+\State Define $ mass\_scenario$ 
+\Function {function\_mass\_of\_scenario}{$d,k,\Sigma,A$} \Comment{Here $\Sigma$ is a list of matrices}
+\Require {$d,\; k,\; A \in \mathbb{M}_{d,d}(\mathbb{R})  $ and a list called $\Sigma$ of $k$ symmetric positive definite matrices of dimension $d$}
+\For {$j \in \{1,\ldots,k\}$}
+\State d=$\lvert I_j \rvert$
+\State $\boldsymbol{\mu_j}=(\log(kA_{i,j})-(1/2)\Sigma[[j]]_{i,i})_{i \in I_j}$
+\State $R_j=(\Sigma[[j]]_{s,t})_{s \in I_i, t \in I_j}$
+\State $\pi_j=calculus\_d(d,R_j,\boldsymbol{\mu_j})$
+\EndFor
+\State $\boldsymbol{\pi}=\boldsymbol{\pi}/(\sum_{j=1}^{k} \pi_j) $
+\State return($\boldsymbol{\pi}$)
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(mvtnorm)}
+
+\NormalTok{function\_mass\_of\_scenario }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(d, k, list\_of\_k\_matrices, A) }\CommentTok{\# A is a (dxk) matrix and Sigma is a (dxd) matrix}
+\NormalTok{\{}
+\NormalTok{  mass }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, k)}
+
+  \CommentTok{\# the element pi[j] will contain the mass of the j{-}th scenario}
+  \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{k) \{}
+\NormalTok{    dimension }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(}\FunctionTok{which}\NormalTok{(A[, j] }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{))}
+\NormalTok{    mu }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(k }\SpecialCharTok{*}\NormalTok{ A[}\FunctionTok{which}\NormalTok{(A[, j] }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{), j]) }\SpecialCharTok{{-}}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{) }\SpecialCharTok{*} \FunctionTok{diag}\NormalTok{(list\_of\_k\_matrices[[j]])[}\FunctionTok{which}\NormalTok{(A[, j] }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)]}
+\NormalTok{    Sigma }\OtherTok{\textless{}{-}}\NormalTok{ list\_of\_k\_matrices[[j]][}\FunctionTok{which}\NormalTok{(A[, j] }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{), }\FunctionTok{which}\NormalTok{(A[, j] }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)]}
+\NormalTok{    pi[j] }\OtherTok{\textless{}{-}} \FunctionTok{calculus\_d}\NormalTok{(dimension, Sigma, mu)}
+\NormalTok{  \}}
+
+
+
+\NormalTok{  pi }\OtherTok{\textless{}{-}}\NormalTok{ pi }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(pi)}
+  \FunctionTok{return}\NormalTok{(pi)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{algorithm}[H]
+\caption{ simulation\_of\_ Hüsler--Reiss~mixture }
+\begin{algorithmic}[1]
+\Function {LDOE}{$\boldsymbol{t}\in \mathbb{R}^d$}
+\State $\boldsymbol{s}=exp(\boldsymbol{t})$
+\State return($\max(\boldsymbol{s}) / \sum_{i=1}^d e^{s_i}$  )
+\EndFunction
+\Function {simulation\_of\_mixture}{$d,k,\Sigma,A$} \Comment{Here $\Sigma$ is a list of matrices}
+\Require {$d,\; k,\; A \in \mathbb{M}_{d,d}(\mathbb{R})  $ and a list called $\Sigma$ of $k$ symmetric positive definite matrices of dimension $d$}
+\State $mass\_of\_scenario=function\_mass\_of\_scenario(d,k,\Sigma,A)$
+\State Simulate $U_1$ from $\{1,\ldots,k\}$ such that $\Pr(U_1=j)=mass\_of\_scenario[j], \; j \in \{1,\ldots,k\}$
+\State cluster=$\{i \in \{1,\ldots,d\}: a_{iU_1}>0\}$
+\State $\boldsymbol{T}[\{i \in \{1,\ldots,d\}: a_{iU_1}=0\}]=-\infty$
+\State $mass\_of\_density=\left(\tfrac{a_{iU_1}}{\sum_{j \in cluser} a_{jU_1}}\right)_{i \in cluster}$
+\If {$\lvert cluster \rvert=1$} 
+\State $U_2=cluster$
+\Else 
+\State Simulate $U_2$ from $cluster$ such that $\Pr(U_2=i)=mass\_of\_density[i], \; i \in cluster$
+\EndIf
+\State Simulate $\boldsymbol{T}[cluster]$ from $\mathcal{N}\left\{\left(-\tfrac{1}{2} \Sigma^{(U_1)}[i,i]+\Sigma^{(U_1)}[i,U_2]+\ln ka_{iU_1}\right)_{i \in I_{U_1}}, \Sigma^{(U_1)}_{I_{U_1}}  \right\}$ \label{commande1}
+\State Simulate $U_0$ from $U([0,1])$  \label{commande2}
+
+\While{$U_0>LDOE(T)$}
+    \State repeat \ref{commande1} and \ref{commande2}
+\EndWhile  
+\State Simulate $E$ a unit exponential random variable independent from $\boldsymbol{T}$.
+\State $\boldsymbol{Y}=\exp(\boldsymbol{T}-\max(\boldsymbol{T})+E)-1$
+\State Return($\boldsymbol{Y}$)
+
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(mvtnorm)}
+\NormalTok{LDOE }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(t) \{}
+\NormalTok{  s }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(t)}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{max}\NormalTok{(s) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(s))}
+\NormalTok{\}}
+\NormalTok{simulation\_of\_mixture }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(d, k, Sigma, A) \{}
+\NormalTok{  T }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, d)}
+\NormalTok{  vector\_mass\_of\_scenario }\OtherTok{\textless{}{-}} \FunctionTok{function\_mass\_of\_scenario}\NormalTok{(d, k, Sigma, A)}
+\NormalTok{  U1 }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{k), }\AttributeTok{prob =}\NormalTok{ vector\_mass\_of\_scenario, }\AttributeTok{size =} \DecValTok{1}\NormalTok{)}
+\NormalTok{  cluster }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(A[, U1] }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)}
+\NormalTok{  T[}\SpecialCharTok{{-}}\NormalTok{cluster] }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\ConstantTok{Inf}
+\NormalTok{  mass\_of\_density }\OtherTok{\textless{}{-}}\NormalTok{ (A[cluster, U1]) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(A[cluster, U1])}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(cluster) }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) \{}
+\NormalTok{    U2 }\OtherTok{\textless{}{-}}\NormalTok{ cluster}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{    U2 }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(cluster, }\AttributeTok{prob =}\NormalTok{ mass\_of\_density, }\AttributeTok{size =} \DecValTok{1}\NormalTok{)}
+\NormalTok{  \}}
+\NormalTok{  T[cluster] }\OtherTok{\textless{}{-}} \FunctionTok{mvrnorm}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{mu =} \SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{) }\SpecialCharTok{*} \FunctionTok{diag}\NormalTok{(Sigma[[U1]])[cluster] }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(k }\SpecialCharTok{*}\NormalTok{ A[cluster, U1]) }\SpecialCharTok{+}\NormalTok{ Sigma[[U1]][cluster, U2], }\AttributeTok{Sigma =}\NormalTok{ Sigma[[U1]][cluster, cluster])}
+\NormalTok{  U0 }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{min =} \DecValTok{0}\NormalTok{, }\AttributeTok{max =} \DecValTok{1}\NormalTok{)}
+  \ControlFlowTok{while}\NormalTok{ (U0 }\SpecialCharTok{\textgreater{}} \FunctionTok{LDOE}\NormalTok{(T)) \{}
+\NormalTok{    T[cluster] }\OtherTok{\textless{}{-}} \FunctionTok{mvrnorm}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{mu =} \SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{) }\SpecialCharTok{*} \FunctionTok{diag}\NormalTok{(Sigma[[U1]])[cluster] }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(k }\SpecialCharTok{*}\NormalTok{ A[cluster, U1]) }\SpecialCharTok{+}\NormalTok{ Sigma[[U1]][cluster, U2], }\AttributeTok{Sigma =}\NormalTok{ Sigma[[U1]][cluster, cluster])}
+\NormalTok{    U0 }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{min =} \DecValTok{0}\NormalTok{, }\AttributeTok{max =} \DecValTok{1}\NormalTok{)}
+\NormalTok{  \}}
+
+
+
+\NormalTok{  E }\OtherTok{\textless{}{-}} \FunctionTok{rexp}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{  Y }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(T }\SpecialCharTok{{-}} \FunctionTok{max}\NormalTok{(T) }\SpecialCharTok{+}\NormalTok{ E) }\SpecialCharTok{{-}} \DecValTok{1}
+  \FunctionTok{return}\NormalTok{(Y)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{algorithm}[H]
+\caption{ Simulation of $N$ independent mixture Hüsler--Reiss~mgp $\boldsymbol{Y}$}\label{alg:cap}
+\begin{algorithmic}[1]
+\Require {$k$-list of $\Sigma$ positive-definite symmetric matrices}
+\Function {N\_simulation\_of\_mixture} {$d,k,\Sigma,A,N$} \Comment{Here $\Sigma$ is a list of matrices}
+\State N\_simulation=replicate(N, Simulation\_of\_mixture($d,k,\Sigma,A$))
+\State return(N\_simulation)
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{N\_simulation\_of\_mixture }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(d, k, list\_of\_matrices, A, N) \{}
+\NormalTok{  N\_simulation }\OtherTok{\textless{}{-}} \FunctionTok{replicate}\NormalTok{(N, }\FunctionTok{simulation\_of\_mixture}\NormalTok{(d, k, list\_of\_matrices, A))}
+
+  \FunctionTok{return}\NormalTok{(N\_simulation)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Consider now the covariance matrices \[
+\begin{aligned}
+\Sigma_1=
+\begin{pmatrix}
+1 & 11/12 & 8/9\\
+11/12 & 1 & 10/11 \\
+8/9 & 10/11 & 1
+\end{pmatrix}, 
+\Sigma_2=
+\begin{pmatrix}
+1 & 1/2 & 1/3\\
+1/2 & 1 & 1/4 \\
+1/3 & 1/4 & 1
+\end{pmatrix},
+\Sigma_3=
+\begin{pmatrix}
+3 & 11/12 & 8/9\\
+11/12 & 3 & 10/11 \\
+8/9 & 10/11 & 3
+\end{pmatrix}.
+\end{aligned}
+\] The associated variogram matrices are respectively
+
+\[
+\begin{aligned}
+\Gamma_1=
+\begin{pmatrix}
+0 & 0.1666667 & 0.222222\\
+0.1666667 & 0 & 0.1818182 \\
+0.222222 & 0.1818182 & 0
+\end{pmatrix},
+ \;\Gamma_2=
+\begin{pmatrix}
+0 & 1 & 1.33\\
+1 & 0 & 1.5 \\
+1.5 & 1.33 & 0
+\end{pmatrix},
+ \;\Gamma_3=
+\begin{pmatrix}
+0 & 4.166667 & 4.22222\\
+4.166667 & 0 & 4.18181818\\
+4.22222 &  4.18181818& 0
+\end{pmatrix}.
+\end{aligned}
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Sigma }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{, }\AttributeTok{nrow =} \DecValTok{3}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{3}\NormalTok{)}
+\NormalTok{Sigma[}\DecValTok{1}\NormalTok{, ] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{1.6}\NormalTok{, }\DecValTok{11} \SpecialCharTok{/} \DecValTok{12}\NormalTok{, }\DecValTok{8} \SpecialCharTok{/} \DecValTok{9}\NormalTok{)}
+\NormalTok{Sigma[}\DecValTok{2}\NormalTok{, ] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{11} \SpecialCharTok{/} \DecValTok{12}\NormalTok{, }\FloatTok{1.6}\NormalTok{, }\DecValTok{10} \SpecialCharTok{/} \DecValTok{11}\NormalTok{)}
+\NormalTok{Sigma[}\DecValTok{3}\NormalTok{, ] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{8} \SpecialCharTok{/} \DecValTok{9}\NormalTok{, }\DecValTok{10} \SpecialCharTok{/} \DecValTok{11}\NormalTok{, }\FloatTok{1.6}\NormalTok{)}
+\NormalTok{A }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{, }\AttributeTok{nrow =} \DecValTok{3}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{3}\NormalTok{)}
+\NormalTok{A[}\DecValTok{1}\NormalTok{, ] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{)}
+\NormalTok{A[}\DecValTok{2}\NormalTok{, ] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{, }\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{, }\DecValTok{0}\NormalTok{)}
+\NormalTok{A[}\DecValTok{3}\NormalTok{, ] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/} \DecValTok{3}\NormalTok{, }\DecValTok{1} \SpecialCharTok{/} \DecValTok{3}\NormalTok{, }\DecValTok{1} \SpecialCharTok{/} \DecValTok{3}\NormalTok{)}
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{N\_simulation\_of\_mixture}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\FunctionTok{list}\NormalTok{(Sigma, Sigma, Sigma), A, }\DecValTok{100}\NormalTok{)}
+\NormalTok{x1}\OtherTok{\textless{}{-}}\NormalTok{x[,}\FunctionTok{which}\NormalTok{(x[}\DecValTok{1}\NormalTok{,]}\SpecialCharTok{\textgreater{}{-}}\DecValTok{1} \SpecialCharTok{\&}\NormalTok{ x[}\DecValTok{2}\NormalTok{,]}\SpecialCharTok{\textgreater{}{-}}\DecValTok{1} \SpecialCharTok{\&}\NormalTok{ x[}\DecValTok{3}\NormalTok{,]}\SpecialCharTok{\textgreater{}{-}}\DecValTok{1}\NormalTok{)]}
+
+
+\CommentTok{\# Using as.data.frame}
+
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{t}\NormalTok{(}\FunctionTok{log}\NormalTok{(x }\SpecialCharTok{+} \DecValTok{1} \SpecialCharTok{+} \FloatTok{0.0001}\NormalTok{))), }\AttributeTok{main =} \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Hüsler{-}Reiss mixture mgp in the exponential scale"}\NormalTok{)), }\AttributeTok{asp =} \DecValTok{1}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(}\FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{t}\NormalTok{(}\FunctionTok{log}\NormalTok{(x1 }\SpecialCharTok{+} \DecValTok{1} \SpecialCharTok{+} \FloatTok{0.0001}\NormalTok{))), }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{mixtureHRmonday0215-8--1-_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Ploting on each face}
+\CommentTok{\# Face (1,2)}
+\NormalTok{a }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(x[}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), ] }\SpecialCharTok{+} \DecValTok{1} \SpecialCharTok{+} \FloatTok{0.0001}\NormalTok{)}
+\NormalTok{a }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(a)}
+\NormalTok{index }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(x[}\DecValTok{1}\NormalTok{, ] }\SpecialCharTok{==} \SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{|}\NormalTok{ x[}\DecValTok{2}\NormalTok{, ] }\SpecialCharTok{==} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)}
+\NormalTok{a1 }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(x[}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), index] }\SpecialCharTok{+} \DecValTok{1} \SpecialCharTok{+} \FloatTok{0.0001}\NormalTok{)}
+\NormalTok{a1 }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(a1)}
+
+\CommentTok{\# Face (1,3)}
+\NormalTok{b }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(x[}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{), ] }\SpecialCharTok{+} \DecValTok{1} \SpecialCharTok{+} \FloatTok{0.0001}\NormalTok{)}
+\NormalTok{b }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(b)}
+\NormalTok{index }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(x[}\DecValTok{1}\NormalTok{, ] }\SpecialCharTok{==} \SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{|}\NormalTok{ x[}\DecValTok{3}\NormalTok{, ] }\SpecialCharTok{==} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)}
+\NormalTok{b1 }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(x[}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{), index] }\SpecialCharTok{+} \DecValTok{1} \SpecialCharTok{+} \FloatTok{0.0001}\NormalTok{)}
+\NormalTok{b1 }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(b1)}
+\CommentTok{\# Face (2,3)}
+\NormalTok{c }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(x[}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{), ] }\SpecialCharTok{+} \DecValTok{1} \SpecialCharTok{+} \FloatTok{0.0001}\NormalTok{)}
+\NormalTok{c }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(c)}
+\NormalTok{index }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(x[}\DecValTok{2}\NormalTok{, ] }\SpecialCharTok{==} \SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{|}\NormalTok{ x[}\DecValTok{3}\NormalTok{, ] }\SpecialCharTok{==} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)}
+\NormalTok{c1 }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(x[}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{), index] }\SpecialCharTok{+} \DecValTok{1} \SpecialCharTok{+} \FloatTok{0.0001}\NormalTok{)}
+\NormalTok{c1 }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(c1)}
+
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{))}
+\DocumentationTok{\#\#\#\#\#}
+\FunctionTok{plot}\NormalTok{(a[}\DecValTok{2}\NormalTok{, ] }\SpecialCharTok{\textasciitilde{}}\NormalTok{ a[}\DecValTok{1}\NormalTok{, ], }\AttributeTok{xlab =} \FunctionTok{expression}\NormalTok{(X[}\DecValTok{1}\NormalTok{]), }\AttributeTok{ylab =} \FunctionTok{expression}\NormalTok{(X[}\DecValTok{2}\NormalTok{]), }\AttributeTok{main =} \StringTok{"Face (1,2)"}\NormalTok{, }\AttributeTok{asp =} \DecValTok{1}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(a1[}\DecValTok{2}\NormalTok{, ] }\SpecialCharTok{\textasciitilde{}}\NormalTok{ a1[}\DecValTok{1}\NormalTok{, ], }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{)}
+\DocumentationTok{\#\#\#\#\#}
+\FunctionTok{plot}\NormalTok{(b[}\DecValTok{2}\NormalTok{, ] }\SpecialCharTok{\textasciitilde{}}\NormalTok{ b[}\DecValTok{1}\NormalTok{, ], }\AttributeTok{xlab =} \FunctionTok{expression}\NormalTok{(X[}\DecValTok{1}\NormalTok{]), }\AttributeTok{ylab =} \FunctionTok{expression}\NormalTok{(X[}\DecValTok{3}\NormalTok{]), }\AttributeTok{main =} \StringTok{"Face (1,3)"}\NormalTok{, }\AttributeTok{asp =} \DecValTok{1}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(b1[}\DecValTok{2}\NormalTok{, ] }\SpecialCharTok{\textasciitilde{}}\NormalTok{ b1[}\DecValTok{1}\NormalTok{, ], }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{)}
+\DocumentationTok{\#\#\#\#\#}
+\FunctionTok{plot}\NormalTok{(c[}\DecValTok{2}\NormalTok{, ] }\SpecialCharTok{\textasciitilde{}}\NormalTok{ c[}\DecValTok{1}\NormalTok{, ], }\AttributeTok{xlab =} \FunctionTok{expression}\NormalTok{(X[}\DecValTok{2}\NormalTok{]), }\AttributeTok{ylab =} \FunctionTok{expression}\NormalTok{(X[}\DecValTok{3}\NormalTok{]), }\AttributeTok{main =} \StringTok{"Face(2,3)"}\NormalTok{, }\AttributeTok{asp =} \DecValTok{1}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(c1[}\DecValTok{2}\NormalTok{, ] }\SpecialCharTok{\textasciitilde{}}\NormalTok{ c1[}\DecValTok{1}\NormalTok{, ], }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{)}
+\FunctionTok{mtext}\NormalTok{(}\StringTok{" 3{-}dimensional Hüsler{-}Reiss mixture mgp in the exponential scale"}\NormalTok{, }\AttributeTok{side =} \DecValTok{3}\NormalTok{, }\AttributeTok{line =} \SpecialCharTok{{-}}\FloatTok{1.5}\NormalTok{, }\AttributeTok{outer =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{mixtureHRmonday0215-8--1-_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Using the function pairs}
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{, }\AttributeTok{nrow =} \DecValTok{100}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{3}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\NormalTok{) \{}
+\NormalTok{  y[i, ] }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(x[, i] }\SpecialCharTok{+} \DecValTok{1} \SpecialCharTok{+} \FloatTok{0.0001}\NormalTok{)}
+\NormalTok{\}}
+
+
+\FunctionTok{pairs}\NormalTok{(y, }\AttributeTok{main =} \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Hüsler{-}Reiss mixture mgp in the exponential scale"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{mixtureHRmonday0215-8--1-_files/figure-latex/unnamed-chunk-12-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{new}\OtherTok{\textless{}{-}}\FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{)}
+\NormalTok{new[}\FunctionTok{which}\NormalTok{(x[}\DecValTok{1}\NormalTok{, ] }\SpecialCharTok{\textgreater{}} \SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{|}\NormalTok{ x[}\DecValTok{2}\NormalTok{, ] }\SpecialCharTok{\textgreater{}} \SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{|}\NormalTok{ x[}\DecValTok{3}\NormalTok{, ] }\SpecialCharTok{\textgreater{}} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)]}\OtherTok{\textless{}{-}}\DecValTok{1}
+\NormalTok{new[}\FunctionTok{which}\NormalTok{(x[}\DecValTok{1}\NormalTok{, ] }\SpecialCharTok{==} \SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{\&}\NormalTok{ x[}\DecValTok{2}\NormalTok{, ] }\SpecialCharTok{\textgreater{}} \SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{\&}\NormalTok{ x[}\DecValTok{3}\NormalTok{,]}\SpecialCharTok{\textgreater{}{-}}\DecValTok{1}\NormalTok{)]}\OtherTok{\textless{}{-}}\DecValTok{2}
+\NormalTok{new[}\FunctionTok{which}\NormalTok{(x[}\DecValTok{1}\NormalTok{, ] }\SpecialCharTok{==} \SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{\&}\NormalTok{ x[}\DecValTok{2}\NormalTok{, ] }\SpecialCharTok{==} \SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{\&}\NormalTok{ x[}\DecValTok{3}\NormalTok{,]}\SpecialCharTok{\textgreater{}{-}}\DecValTok{1}\NormalTok{)]}\OtherTok{\textless{}{-}}\DecValTok{3}
+
+
+\NormalTok{x}\OtherTok{\textless{}{-}}\FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{t}\NormalTok{(}\FunctionTok{log}\NormalTok{(x }\SpecialCharTok{+} \DecValTok{1} \SpecialCharTok{+} \FloatTok{0.0001}\NormalTok{)))}
+\NormalTok{x}\SpecialCharTok{$}\NormalTok{new}\OtherTok{\textless{}{-}}\NormalTok{new}
+
+\CommentTok{\#plot(x[x$new==1,c(1,2)], col = "red", xlim=c({-}10,5), ylim=c({-}10,5))}
+\CommentTok{\#points(x[x$new==2,c(1,2)], col = "green")}
+\FunctionTok{plot}\NormalTok{(x[,}\SpecialCharTok{{-}}\DecValTok{4}\NormalTok{] , }\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{5}\NormalTok{), }\AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{10}\NormalTok{,}\DecValTok{5}\NormalTok{),  }\AttributeTok{pch=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{)[x}\SpecialCharTok{$}\NormalTok{new], }\AttributeTok{col=}\FunctionTok{c}\NormalTok{(}\StringTok{"\#009999"}\NormalTok{, }\StringTok{"\#1E7FCB"}\NormalTok{,}\StringTok{"red"}\NormalTok{)[x}\SpecialCharTok{$}\NormalTok{new],}\AttributeTok{cex=}\FloatTok{1.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{mixtureHRmonday0215-8--1-_files/figure-latex/unnamed-chunk-12-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# index1\textless{}{-}which( (x[1,]=={-}1) | (x[2,]=={-}1) )}
+\CommentTok{\# points(   log(x[c(1,2),index1]+1+0.001), col = "blue", pch = 19)}
+\CommentTok{\# plot(as.data.frame(t(log(x+1+0.0001))), main = expression(paste("Hüsler{-}Reiss mixture mgp in the exponential scale" )))}
+\NormalTok{extremal\_coeficient\_111}\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(Sigma)\{}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{calculus\_d}\NormalTok{(}\DecValTok{3}\NormalTok{, Sigma, }\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{diag}\NormalTok{(Sigma)}\SpecialCharTok{+} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FunctionTok{log}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{), }\FunctionTok{log}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{3}\NormalTok{))) }\SpecialCharTok{+} \FunctionTok{calculus\_d}\NormalTok{(}\DecValTok{2}\NormalTok{, Sigma[}\DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{,}\DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{], }\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{diag}\NormalTok{(Sigma[}\DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{,}\DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{])}\SpecialCharTok{+} \FunctionTok{c}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{), }\FunctionTok{log}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{3}\NormalTok{))) }\SpecialCharTok{+}\DecValTok{1}\SpecialCharTok{/}\DecValTok{3}\NormalTok{  )}
+\NormalTok{\}}
+\FunctionTok{extremal\_coeficient\_111}\NormalTok{(Sigma)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.115915
+## attr(,"error")
+## [1] 1e-15
+## attr(,"msg")
+## [1] "Normal Completion"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{extremal\_coeficient\_011}\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(Sigma)\{}
+  \FunctionTok{return}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\FunctionTok{calculus\_d}\NormalTok{(}\DecValTok{2}\NormalTok{, Sigma[}\DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{,}\DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{], }\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{diag}\NormalTok{(Sigma[}\DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{,}\DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{])}\SpecialCharTok{+} \FunctionTok{c}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{), }\FunctionTok{log}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{3}\NormalTok{))) }\SpecialCharTok{+}\DecValTok{1}\SpecialCharTok{/}\DecValTok{3}\NormalTok{  )}
+\NormalTok{\}}
+\FunctionTok{extremal\_coeficient\_011}\NormalTok{(Sigma)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.555128
+\end{verbatim}
+
+\end{document}
