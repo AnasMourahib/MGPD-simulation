@@ -19,6 +19,6 @@ mgpd_simulation_mixture_logistic<-function(d,r,alpha,A, type = c("logistic", "HR
     if ( (U_0 < rejection_sampling(T)) ) {accept = TRUE}
   }
   E<-rexp(1,1)
-  Y <- exp(T - max(T) + E) - 1
+  Y <- T - max(T) + E
   return(Y)
 }

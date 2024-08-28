@@ -17,7 +17,7 @@ mgpd_simulation_mixture_HR<-function(d,r,Sigma,A){
       }
   }
   E<-rexp(1,1)
-  Y <- exp(T - max(T) + E) - 1
+  Y <- T - max(T) + E
   return(Y)
 }
 
