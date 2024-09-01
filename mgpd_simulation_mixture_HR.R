@@ -1,5 +1,7 @@
 source("Helper_functions.R")
 
+
+
 mgpd_simulation_mixture_HR<-function(d,r,Sigma,A){
   w<-mass_of_scenario(d, r, Sigma, A)  
   T<-rep(-Inf,d)
@@ -20,5 +22,3 @@ mgpd_simulation_mixture_HR<-function(d,r,Sigma,A){
   Y <- T - max(T) + E
   return(Y)
 }
-
-

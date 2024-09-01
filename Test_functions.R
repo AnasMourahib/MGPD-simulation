@@ -14,7 +14,74 @@ sample_mixture_logistic<-function(d,r,alpha,A,N){
   return(final)
 }
 N<-100
-X_mix_log<-sample_mixture_logistic(d,r,alpha,A,N)
+set.seed(79)
+Y_mix_log<-sample_mixture_logistic(d,r,alpha,A,N)
+Z_mix_log<-4*(exp(Y_mix_log/4)-1)
+
+new<-rep(0,100)
+new[which(Z_mix_log[1, ] > -4 | Z_mix_log[2, ] > -4 | Z_mix_log[3, ] > -4)]<-1
+new[which(Z_mix_log[1, ] == -4 & Z_mix_log[2, ] > -4 & Z_mix_log[3,]>-4)]<-2
+new[which(Z_mix_log[1, ] == -4 & Z_mix_log[2, ] == -4 & Z_mix_log[3,]>-4)]<-3
+
+
+Z_mix_log<-as.data.frame(t(Z_mix_log))
+Z_mix_log$new<-new
+
+
+# Define the colors for the points
+my_cols <- c("#00AFBB", "#E7B800", "#FC4E07")
+
+# Set up the layout with an extra space for the legend
+layout(matrix(c(1, 2, 3, 4), nrow = 2, byrow = TRUE), widths = c(1, 1), heights = c(1, 1))
+
+# Adjust the margin and distance between the axis and labels
+par(mgp = c(4, 1, 0))  # Adjust distance: mgp[1] is axis title, mgp[2] is axis labels, mgp[3] is axis line
+
+# Plot 1: Z2 vs Z1
+plot(Z_mix_log[, 2]~Z_mix_log[, 1], 
+     pch = c(1,2,3)[Z_mix_log$new], 
+     col = my_cols[Z_mix_log$new], 
+     cex = 1.5, 
+     xlim = c(-4, 7), 
+     ylim = c(-4, 7), 
+     ylab = "", 
+     xlab = "")
+title(xlab = expression(Z[1]), ylab = expression(Z[2]), line = 2.3, cex.lab = 1.8)
+
+# Plot 2: Z3 vs Z1
+plot(Z_mix_log[, 3]~Z_mix_log[, 1], 
+     pch = c(1,2,3)[Z_mix_log$new], 
+     col = my_cols[Z_mix_log$new], 
+     cex = 1.5, 
+     xlim = c(-4, 7), 
+     ylim = c(-4, 7), 
+     ylab = "", 
+     xlab = "")
+title(xlab = expression(Z[1]), ylab = expression(Z[3]), line = 2.3, cex.lab = 1.8)
+
+# Plot 3: Z3 vs Z2
+plot(Z_mix_log[, 3]~Z_mix_log[, 2], 
+     pch = c(1,2,3)[Z_mix_log$new], 
+     col = my_cols[Z_mix_log$new], 
+     cex = 1.5, 
+     xlim = c(-4, 7), 
+     ylim = c(-4, 7), 
+     ylab = "", 
+     xlab = "")
+title(xlab = expression(Z[2]), ylab = expression(Z[3]), line = 2.3, cex.lab = 1.8)
+
+# Create a new plot space for the legend
+plot.new()
+
+# Draw the legend in the center of the plotting area with a box around it
+legend("center", 
+       pch = c(1,2,3), 
+       col = my_cols, 
+       legend = c(expression(A["{1,2,3}"]^{-4}), expression(A["{2,3}"]^{-4}), expression(A["{3}"]^{-4})), 
+       cex = 2, 
+       box.col = "black", 
+       box.lty = "solid")
+
 
 
 #Sample of size 100 from the multivariate generalized Pareto distribution associated to a mixture Hüsler-Reiss model with matrix A and variogram matrix Sigma on each column
@@ -28,5 +95,24 @@ sample_mixture_HR<-function(d,r,Sigma,A,N){
   final<-replicate(N,mgpd_simulation_mixture_HR(d,r,Sigma,A))
   return(final)
 }
-set.seed(11)
-X_mix_HR<-sample_mixture_HR(d,r,Sigma,A,11)
+set.seed(7)
+Y_mix_HR<-sample_mixture_HR(d,r,Sigma,A,1)
+Z_mix_HR<-4*(exp(Y_mix_HR/4)-1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
