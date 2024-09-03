@@ -1,6 +1,3 @@
-library(MASS)
-library(mvtnorm)
-
 rejection_sampling<- function(x) (return( exp(max(x))/(sum(exp(x))) ) )
 
 transformed_logsitic_generator<-function(i, sign, column, alpha,r){
@@ -8,8 +5,6 @@ transformed_logsitic_generator<-function(i, sign, column, alpha,r){
   T[which(sign==i)]<- -(alpha)*(log(rgamma(1,shape=1-alpha,rate=1)))+log((column[which(sign==i)]*r)/(gamma(1-alpha)))
   return(T)
 }
-
-
 
 matrix_transformation <- function(Sigma) {
   gamma <- (as.matrix(rep(1, nrow(Sigma))) %*% diag(Sigma)) / 2 + (as.matrix(diag(Sigma)) %*% rep(1, nrow(Sigma))) / 2 - Sigma
@@ -33,7 +28,6 @@ case_d_2 <- function(mu, Gamma) {
   return(expec)
 }
 
-
 calculus_d <- function(d, Sigma, mu) {
   if (d == 1) {
     return(exp(mu + (Sigma / 2)))
@@ -44,8 +38,7 @@ calculus_d <- function(d, Sigma, mu) {
     if (d == 2) {
       return(case_d_2(mu, gamma))
     } else {
-      for (i in 1:d)
-      {
+      for (i in 1:d){
         # Computing eta
         eta <- calculus_of_eta(i, mu, gamma)
         # Computing R
@@ -57,9 +50,7 @@ calculus_d <- function(d, Sigma, mu) {
   }
 }
 
-
-
-mass_of_scenario <- function(d, r, list_of_k_matrices, A) # A is a (dxk) matrix and Sigma is a (dxd) matrix
+mass_of_scenario <- function(d, r, list_of_k_matrices, A) # A is a (d x k) matrix and Sigma is a (dxd) matrix
 {
   pi<-numeric(r)
   for (k in 1:r) {
@@ -68,24 +59,14 @@ mass_of_scenario <- function(d, r, list_of_k_matrices, A) # A is a (dxk) matrix 
     Sigma <- list_of_k_matrices[[k]][which(A[, k] > 0), which(A[, k] > 0)]
     pi[k] <- calculus_d(dimension, Sigma, mu)
   }
-  
-  
-  
   pi <- pi / sum(pi)
   return(pi)
 }
  
-
-                      
 HR_generator<-function(i,j, column, sign, covariance_matrix, r){
   T<-mvrnorm(1, mu = -(1 / 2) * diag(covariance_matrix)[sign] + log(r * column) + covariance_matrix[sign, i], Sigma = covariance_matrix[sign, sign])
   return(T)
 } 
-
-
-
-
-
 
 
 

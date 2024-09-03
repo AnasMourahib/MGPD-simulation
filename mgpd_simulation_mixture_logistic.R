@@ -1,9 +1,3 @@
-source("Helper_functions.R")
-
-
-
-
-
 mgpd_simulation_mixture_logistic<-function(d,r,alpha,A, type = c("logistic", "HR")){
   w<-colSums((A)^(1/alpha))^(alpha)/sum(colSums((A)^(1/alpha))^(alpha))   
   T<-rep(-Inf,d)

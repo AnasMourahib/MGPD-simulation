@@ -1,11 +1,12 @@
+library(MASS)
+library(mvtnorm)
 source("mgpd_simulation_mixture_logistic.R")
 source("mgpd_simulation_mixture_HR.R")
-
+source("Helper_functions.R")
 
 d<-3
 r<-3
 A<-rbind(c(1,0,0), c(1/2, 1/2, 0), c(1/3, 1/3, 1/3))
-
 
 #Sample of size 100 from the multivariate generalized Pareto distribution associated to a mixture logistic model with matrix A and alpha=(0.5, 0.5, 0.5)
 alpha<-0.5 
@@ -23,10 +24,8 @@ new[which(Z_mix_log[1, ] > -4 | Z_mix_log[2, ] > -4 | Z_mix_log[3, ] > -4)]<-1
 new[which(Z_mix_log[1, ] == -4 & Z_mix_log[2, ] > -4 & Z_mix_log[3,]>-4)]<-2
 new[which(Z_mix_log[1, ] == -4 & Z_mix_log[2, ] == -4 & Z_mix_log[3,]>-4)]<-3
 
-
 Z_mix_log<-as.data.frame(t(Z_mix_log))
 Z_mix_log$new<-new
-
 
 # Define the colors for the points
 my_cols <- c("#00AFBB", "#E7B800", "#FC4E07")
@@ -83,12 +82,10 @@ legend("center",
        box.lty = "solid")
 
 
-
 #Sample of size 100 from the multivariate generalized Pareto distribution associated to a mixture Hüsler-Reiss model with matrix A and variogram matrix Sigma on each column
 
 Sigma<-  rbind(c(1.6, 10 / 11, 10 / 11), c(10 / 11, 1.6, 10 / 11), c(10 / 11, 10 / 11, 1.6) )
 Sigma <- list (Sigma, Sigma, Sigma)
-
 
 
 sample_mixture_HR<-function(d,r,Sigma,A,N){

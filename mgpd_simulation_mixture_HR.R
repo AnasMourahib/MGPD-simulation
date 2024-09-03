@@ -1,7 +1,3 @@
-source("Helper_functions.R")
-
-
-
 mgpd_simulation_mixture_HR<-function(d,r,Sigma,A){
   w<-mass_of_scenario(d, r, Sigma, A)  
   T<-rep(-Inf,d)
