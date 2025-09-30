@@ -1,4 +1,4 @@
-##Sigma is covariance matrix introduced in Equation (4.14) from Mourahib, Anas, Anna Kiriliouk, and Johan Segers. "Multivariate generalized Pareto distributions along extreme directions: A. Mourahib et al." Extremes 28.2 (2025): 239-272.
+##Sigma is the covariance matrix introduced in Equation (4.14) from Mourahib, Anas, Anna Kiriliouk, and Johan Segers. "Multivariate generalized Pareto distributions along extreme directions: A. Mourahib et al." Extremes 28.2 (2025): 239-272.
 mgpd_simulation_mixture_HR<-function(d,r,Sigma,A){
   w<-mass_of_scenario(d, r, Sigma, A)  
   T<-rep(-Inf,d)
