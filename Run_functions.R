@@ -173,7 +173,7 @@ Sigma <- matrix(rho, nrow = d, ncol = d)
 diag(Sigma) <- 1
 A_C1 = A[1:3 , ]
 Sigma_C1 <- Sigma[1:3 , 1:3]
-list_Sigma_C1 <- list (Sigma_C1, Sigma_C1, Sigma_C1)
+list_Sigma_C1 <- list (Sigma_C1, Sigma_C1, Sigma_C1 , Sigma_C1)
 d <- 3
 r <- 4
 
@@ -183,7 +183,7 @@ sample_angular_measure_mixture_HR<-function(d,r,Sigma,A,N){
 }
 set.seed(7)
 N <- 100
-W <- sample_angular_measure_mixture_HR(d,r,list_Sigma_C1,A_C1,N) 
+W <- t(sample_angular_measure_mixture_HR(d,r,list_Sigma_C1,A_C1,N)) 
 
 
 
