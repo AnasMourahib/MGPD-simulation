@@ -3,6 +3,7 @@ library(mvtnorm)
 source("mgpd_simulation_mixture_logistic.R")
 source("mgpd_simulation_mixture_HR.R")
 source("Helper_functions.R")
+source("angular_measure_simulation.R")
 
 d<-3
 r<-3
@@ -162,12 +163,27 @@ legend("center",
        box.lty = "solid")
 
 
+########Simulation from the L1-angular measure
+A <- rbind(c(1/3 , 0 , 1/3 , 1/3),
+           c(1/2 , 0 , 1/2 , 0), 
+           c(1/2 , 1/2 , 0 , 0 ),
+           c(1/2 , 1/2 , 0 , 0 ) )
+Sigma<- rho <- 0.5  
+Sigma <- matrix(rho, nrow = d, ncol = d)
+diag(Sigma) <- 1
+A_C1 = A[1:3 , ]
+Sigma_C1 <- Sigma[1:3 , 1:3]
+list_Sigma_C1 <- list (Sigma_C1, Sigma_C1, Sigma_C1)
+d <- 3
+r <- 4
 
-
-
-
-
-
+sample_angular_measure_mixture_HR<-function(d,r,Sigma,A,N){
+  final<-replicate(N,sample_W(d , r , Sigma , alpha = NULL ,  A , model = "HR"))
+  return(final)
+}
+set.seed(7)
+N <- 100
+W <- sample_angular_measure_mixture_HR(d,r,list_Sigma_C1,A_C1,N) 
 
 
 

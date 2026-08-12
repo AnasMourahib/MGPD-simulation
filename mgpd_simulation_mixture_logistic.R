@@ -1,4 +1,4 @@
-mgpd_simulation_mixture_logistic<-function(d,r,alpha,A, type = c("logistic", "HR")){
+mgpd_simulation_mixture_logistic<-function(d,r,alpha,A){
   w<-colSums((A)^(1/alpha))^(alpha)/sum(colSums((A)^(1/alpha))^(alpha))   
   T<-rep(-Inf,d)
   b<-sample(c(1:r), prob=w,size=1)
