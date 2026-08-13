@@ -186,7 +186,71 @@ N <- 100
 W <- t(sample_angular_measure_mixture_HR(d,r,list_Sigma_C1,A_C1,N)) 
 
 
+#########Plot the angular measure in a simplex
+library(ggplot2)
 
 
 
+plot_horizontal_simplex <- function(M, point_size = 4.0, point_color = "#003366") {
+  # 1. Input Validation
+  if (!is.matrix(M) || ncol(M) != 3) {
+    stop("Input 'M' must be an n x 3 matrix.")
+  }
+  
+  # 2. Vectorized 2D Simplex Transformation
+  s3 <- sqrt(3) / 2
+  pts <- data.frame(
+    x1 = M[, 1],
+    x2 = M[, 2],
+    x3 = M[, 3]
+  )
+  pts$x_2d <- (1 - pts$x1) * s3
+  pts$y_2d <- pts$x3 + 0.5 * pts$x1
+  
+  # 3. Geometry Boundaries
+  triangle <- data.frame(
+    x = c(0, s3, s3, 0),
+    y = c(0.5, 0, 1, 0.5)
+  )
+  
+  # Centroid coordinate (Center of the simplex)
+  centroid_x <- sqrt(3) / 3
+  centroid_y <- 0.5
+  
+  # 4. Build Plot
+  p <- ggplot() +
+    # Outer Triangle Boundary
+    geom_polygon(data = triangle, aes(x, y), fill = "white", color = "black", linewidth = 0.6) +
+    
+    # Data Points
+    geom_point(data = pts, aes(x_2d, y_2d), color = point_color, size = point_size, alpha = 0.85) +
+    
+    # --- VERTEX SUBSET LABELS ---
+    annotate("text", x = -0.04, y = 0.50, label = "A['{1}']", parse = TRUE, hjust = 1, size = 5.5) +
+    annotate("text", x = s3 + 0.04, y = -0.03, label = "A['{2}']", parse = TRUE, hjust = 0, vjust = 1, size = 5.5) +
+    annotate("text", x = s3 + 0.04, y = 1.03, label = "A['{3}']", parse = TRUE, hjust = 0, vjust = 0, size = 5.5) +
+    
+    # --- EDGE SUBSET LABELS (Shifted closer to edge midpoints) ---
+    annotate("text", x = s3/2 - 0.02, y = 0.21, label = "A['{1,2}']", parse = TRUE, hjust = 1, vjust = 1, size = 5.0) +
+    annotate("text", x = s3/2 - 0.02, y = 0.79, label = "A['{1,3}']", parse = TRUE, hjust = 1, vjust = 0, size = 5.0) +
+    annotate("text", x = s3 + 0.04, y = 0.50, label = "A['{2,3}']", parse = TRUE, hjust = 0, vjust = 0.5, size = 5.0) +
+    
+    # --- INTERIOR SUBSET POINTER & LABEL ---
+    annotate("point", x = centroid_x, y = centroid_y, size = 1.5, color = "grey30") +
+    annotate("segment", x = centroid_x, y = centroid_y, xend = centroid_x, yend = 0.92,
+             color = "grey30", linetype = "solid", linewidth = 0.4) +
+    annotate("text", x = centroid_x, y = 0.95, label = "A['{1,2,3}']", parse = TRUE,
+             hjust = 0.5, vjust = 0, size = 5.5) +
+    
+    # Formatting and Margins
+    coord_fixed(xlim = c(-0.18, s3 + 0.22), ylim = c(-0.08, 1.06)) +
+    theme_void() +
+    theme(plot.margin = margin(5, 5, 5, 5))
+  
+  return(p)
+}
+p <- plot_horizontal_simplex(W)
+print(p)
 
+# Save Vector PDF for JASA Latex Submission
+ggsave("C:/Users/20254817/Desktop/Githib/MGPD-simulation/Figures/Lambda_C1.pdf", plot = p, width = 6, height = 5, device = cairo_pdf)
