@@ -168,14 +168,16 @@ A <- rbind(c(1/3 , 0 , 1/3 , 1/3),
            c(1/2 , 0 , 1/2 , 0), 
            c(1/2 , 1/2 , 0 , 0 ),
            c(1/2 , 1/2 , 0 , 0 ) )
-Sigma<- rho <- 0.5  
+Sigma<- rho <- 0.5 
+d <- 4
 Sigma <- matrix(rho, nrow = d, ncol = d)
 diag(Sigma) <- 1
-A_C1 = A[1:3 , ]
-Sigma_C1 <- Sigma[1:3 , 1:3]
-list_Sigma_C1 <- list (Sigma_C1, Sigma_C1, Sigma_C1 , Sigma_C1)
-d <- 3
-r <- 4
+A_C2 = A[2:4 ,  ]   
+A_C2 <- A_C2[, colSums(A_C2 != 0) > 0, drop = FALSE]
+Sigma_C2 <- Sigma[2:4 , 2:4]
+list_Sigma_C2 <- list (Sigma_C2, Sigma_C2, Sigma_C2 , Sigma_C2)
+d <- nrow(A_C2)
+r <- ncol(A_C2)
 
 sample_angular_measure_mixture_HR<-function(d,r,Sigma,A,N){
   final<-replicate(N,sample_W(d , r , Sigma , alpha = NULL ,  A , model = "HR"))
@@ -183,7 +185,7 @@ sample_angular_measure_mixture_HR<-function(d,r,Sigma,A,N){
 }
 set.seed(7)
 N <- 100
-W <- t(sample_angular_measure_mixture_HR(d,r,list_Sigma_C1,A_C1,N)) 
+W <- t(sample_angular_measure_mixture_HR(d,r,list_Sigma_C2,A_C2,N)) 
 
 
 #########Plot the angular measure in a simplex
@@ -198,23 +200,24 @@ plot_horizontal_simplex <- function(M, point_size = 4.0, point_color = "#003366"
   }
   
   # 2. Vectorized 2D Simplex Transformation
+  # M[, 1] = x2 (bottom-left), M[, 2] = x3 (top-left), M[, 3] = x4 (right apex)
   s3 <- sqrt(3) / 2
   pts <- data.frame(
-    x1 = M[, 1],
-    x2 = M[, 2],
-    x3 = M[, 3]
+    x2 = M[, 1],
+    x3 = M[, 2],
+    x4 = M[, 3]
   )
-  pts$x_2d <- (1 - pts$x1) * s3
-  pts$y_2d <- pts$x3 + 0.5 * pts$x1
+  pts$x_2d <- pts$x4 * s3
+  pts$y_2d <- pts$x3 + 0.5 * pts$x4
   
   # 3. Geometry Boundaries
   triangle <- data.frame(
-    x = c(0, s3, s3, 0),
-    y = c(0.5, 0, 1, 0.5)
+    x = c(0, 0, s3, 0),
+    y = c(0, 1, 0.5, 0)
   )
   
   # Centroid coordinate (Center of the simplex)
-  centroid_x <- sqrt(3) / 3
+  centroid_x <- s3 / 3
   centroid_y <- 0.5
   
   # 4. Build Plot
@@ -226,20 +229,20 @@ plot_horizontal_simplex <- function(M, point_size = 4.0, point_color = "#003366"
     geom_point(data = pts, aes(x_2d, y_2d), color = point_color, size = point_size, alpha = 0.85) +
     
     # --- VERTEX SUBSET LABELS ---
-    annotate("text", x = -0.04, y = 0.50, label = "A['{1}']", parse = TRUE, hjust = 1, size = 5.5) +
-    annotate("text", x = s3 + 0.04, y = -0.03, label = "A['{2}']", parse = TRUE, hjust = 0, vjust = 1, size = 5.5) +
-    annotate("text", x = s3 + 0.04, y = 1.03, label = "A['{3}']", parse = TRUE, hjust = 0, vjust = 0, size = 5.5) +
+    annotate("text", x = s3 + 0.04, y = 0.50, label = "A['{4}']", parse = TRUE, hjust = 0, size = 5.5) +
+    annotate("text", x = -0.04, y = -0.03, label = "A['{2}']", parse = TRUE, hjust = 1, vjust = 1, size = 5.5) +
+    annotate("text", x = -0.04, y = 1.03, label = "A['{3}']", parse = TRUE, hjust = 1, vjust = 0, size = 5.5) +
     
-    # --- EDGE SUBSET LABELS (Shifted closer to edge midpoints) ---
-    annotate("text", x = s3/2 - 0.02, y = 0.21, label = "A['{1,2}']", parse = TRUE, hjust = 1, vjust = 1, size = 5.0) +
-    annotate("text", x = s3/2 - 0.02, y = 0.79, label = "A['{1,3}']", parse = TRUE, hjust = 1, vjust = 0, size = 5.0) +
-    annotate("text", x = s3 + 0.04, y = 0.50, label = "A['{2,3}']", parse = TRUE, hjust = 0, vjust = 0.5, size = 5.0) +
+    # --- EDGE SUBSET LABELS ---
+    annotate("text", x = s3/2 + 0.02, y = 0.21, label = "A['{2,4}']", parse = TRUE, hjust = 0, vjust = 1, size = 5.0) +
+    annotate("text", x = s3/2 + 0.02, y = 0.79, label = "A['{3,4}']", parse = TRUE, hjust = 0, vjust = 0, size = 5.0) +
+    annotate("text", x = -0.04, y = 0.50, label = "A['{2,3}']", parse = TRUE, hjust = 1, vjust = 0.5, size = 5.0) +
     
     # --- INTERIOR SUBSET POINTER & LABEL ---
     annotate("point", x = centroid_x, y = centroid_y, size = 1.5, color = "grey30") +
     annotate("segment", x = centroid_x, y = centroid_y, xend = centroid_x, yend = 0.92,
              color = "grey30", linetype = "solid", linewidth = 0.4) +
-    annotate("text", x = centroid_x, y = 0.95, label = "A['{1,2,3}']", parse = TRUE,
+    annotate("text", x = centroid_x, y = 0.95, label = "A['{2,3,4}']", parse = TRUE,
              hjust = 0.5, vjust = 0, size = 5.5) +
     
     # Formatting and Margins
@@ -253,4 +256,5 @@ p <- plot_horizontal_simplex(W)
 print(p)
 
 # Save Vector PDF for JASA Latex Submission
-ggsave("C:/Users/20254817/Desktop/Githib/MGPD-simulation/Figures/Lambda_C1.pdf", plot = p, width = 6, height = 5, device = cairo_pdf)
+ggsave("C:/Github/MGPD-simulation/Figures/Lambda_C2.pdf", plot = p, width = 6, height = 5, device = cairo_pdf)
+
