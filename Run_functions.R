@@ -172,12 +172,12 @@ Sigma<- rho <- 0.5
 d <- 4
 Sigma <- matrix(rho, nrow = d, ncol = d)
 diag(Sigma) <- 1
-A_C2 = A[2:4 ,  ]   
-A_C2 <- A_C2[, colSums(A_C2 != 0) > 0, drop = FALSE]
-Sigma_C2 <- Sigma[2:4 , 2:4]
-list_Sigma_C2 <- list (Sigma_C2, Sigma_C2, Sigma_C2 , Sigma_C2)
-d <- nrow(A_C2)
-r <- ncol(A_C2)
+A_C1 = A[1:3 ,  ]   
+A_C1 <- A_C1[, colSums(A_C1 != 0) > 0, drop = FALSE]
+Sigma_C1 <- Sigma[1:3 , 1:3]
+list_Sigma_C1 <- list (Sigma_C1, Sigma_C1, Sigma_C1 , Sigma_C1)
+d <- nrow(A_C1)
+r <- ncol(A_C1)
 
 sample_angular_measure_mixture_HR<-function(d,r,Sigma,A,N){
   final<-replicate(N,sample_W(d , r , Sigma , alpha = NULL ,  A , model = "HR"))
@@ -185,76 +185,224 @@ sample_angular_measure_mixture_HR<-function(d,r,Sigma,A,N){
 }
 set.seed(7)
 N <- 100
-W <- t(sample_angular_measure_mixture_HR(d,r,list_Sigma_C2,A_C2,N)) 
+W <- t(sample_angular_measure_mixture_HR(d,r,list_Sigma_C1,A_C1,N)) 
 
 
 #########Plot the angular measure in a simplex
 library(ggplot2)
+intsall.packages("ggtext")
 
 
-
-plot_horizontal_simplex <- function(M, point_size = 4.0, point_color = "#003366") {
-  # 1. Input Validation
+plot_vertical_simplex <- function(
+    M,
+    point_size = 4.0,
+    point_color = "#003366"
+) {
+  # Check the input
   if (!is.matrix(M) || ncol(M) != 3) {
     stop("Input 'M' must be an n x 3 matrix.")
   }
   
-  # 2. Vectorized 2D Simplex Transformation
-  # M[, 1] = x2 (bottom-left), M[, 2] = x3 (top-left), M[, 3] = x4 (right apex)
-  s3 <- sqrt(3) / 2
+  # Check required packages
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Package 'ggplot2' is required.")
+  }
+  
+  if (!requireNamespace("ggtext", quietly = TRUE)) {
+    stop(
+      "Package 'ggtext' is required. Install it with ",
+      "install.packages('ggtext')."
+    )
+  }
+  
+  # Height of an equilateral triangle
+  h <- sqrt(3) / 2
+  
+  # Component-to-vertex correspondence:
+  # x1: top vertex
+  # x2: bottom-left vertex
+  # x3: bottom-right vertex
   pts <- data.frame(
-    x2 = M[, 1],
-    x3 = M[, 2],
-    x4 = M[, 3]
+    x1 = M[, 1],
+    x2 = M[, 2],
+    x3 = M[, 3]
   )
-  pts$x_2d <- pts$x4 * s3
-  pts$y_2d <- pts$x3 + 0.5 * pts$x4
   
-  # 3. Geometry Boundaries
+  # Barycentric transformation
+  #
+  # x1 -> (0.5, h)
+  # x2 -> (0, 0)
+  # x3 -> (1, 0)
+  pts$x_2d <- 0.5 * pts$x1 + pts$x3
+  pts$y_2d <- h * pts$x1
+  
+  # Triangle boundary
   triangle <- data.frame(
-    x = c(0, 0, s3, 0),
-    y = c(0, 1, 0.5, 0)
+    x = c(0.5, 0, 1, 0.5),
+    y = c(h, 0, 0, h)
   )
   
-  # Centroid coordinate (Center of the simplex)
-  centroid_x <- s3 / 3
-  centroid_y <- 0.5
+  # Interior point used for the pointer
+  interior_x <- 0.5
+  interior_y <- h / 3
   
-  # 4. Build Plot
-  p <- ggplot() +
-    # Outer Triangle Boundary
-    geom_polygon(data = triangle, aes(x, y), fill = "white", color = "black", linewidth = 0.6) +
+  # Construct the calligraphic A
+  cal_A <- intToUtf8(0x1D49C)
+  
+  # Rich-text labels
+  labels <- data.frame(
+    x = c(
+      0.50,
+      -0.04,
+      1.04,
+      0.21,
+      0.79,
+      0.50,
+      0.94
+    ),
+    y = c(
+      h + 0.04,
+      -0.03,
+      -0.03,
+      h / 2,
+      h / 2,
+      -0.04,
+      0.55
+    ),
+    label = paste0(
+      cal_A,
+      c(
+        "<sub>{1}</sub>",
+        "<sub>{2}</sub>",
+        "<sub>{3}</sub>",
+        "<sub>{1,2}</sub>",
+        "<sub>{1,3}</sub>",
+        "<sub>{2,3}</sub>",
+        "<sub>{1,2,3}</sub>"
+      )
+    ),
+    hjust = c(
+      0.5,
+      1,
+      0,
+      1,
+      0,
+      0.5,
+      0
+    ),
+    vjust = c(
+      0,
+      1,
+      1,
+      0.5,
+      0.5,
+      1,
+      0.5
+    ),
+    size = c(
+      5.5,
+      5.5,
+      5.5,
+      5.0,
+      5.0,
+      5.0,
+      5.5
+    )
+  )
+  
+  # Construct the plot
+  p <- ggplot2::ggplot() +
     
-    # Data Points
-    geom_point(data = pts, aes(x_2d, y_2d), color = point_color, size = point_size, alpha = 0.85) +
+    # Outer triangle
+    ggplot2::geom_polygon(
+      data = triangle,
+      mapping = ggplot2::aes(
+        x = x,
+        y = y
+      ),
+      fill = "white",
+      color = "black",
+      linewidth = 0.6
+    ) +
     
-    # --- VERTEX SUBSET LABELS ---
-    annotate("text", x = s3 + 0.04, y = 0.50, label = "A['{4}']", parse = TRUE, hjust = 0, size = 5.5) +
-    annotate("text", x = -0.04, y = -0.03, label = "A['{2}']", parse = TRUE, hjust = 1, vjust = 1, size = 5.5) +
-    annotate("text", x = -0.04, y = 1.03, label = "A['{3}']", parse = TRUE, hjust = 1, vjust = 0, size = 5.5) +
+    # Data points
+    ggplot2::geom_point(
+      data = pts,
+      mapping = ggplot2::aes(
+        x = x_2d,
+        y = y_2d
+      ),
+      color = point_color,
+      size = point_size,
+      alpha = 0.85
+    ) +
     
-    # --- EDGE SUBSET LABELS ---
-    annotate("text", x = s3/2 + 0.02, y = 0.21, label = "A['{2,4}']", parse = TRUE, hjust = 0, vjust = 1, size = 5.0) +
-    annotate("text", x = s3/2 + 0.02, y = 0.79, label = "A['{3,4}']", parse = TRUE, hjust = 0, vjust = 0, size = 5.0) +
-    annotate("text", x = -0.04, y = 0.50, label = "A['{2,3}']", parse = TRUE, hjust = 1, vjust = 0.5, size = 5.0) +
+    # Interior marker
+    ggplot2::annotate(
+      geom = "point",
+      x = interior_x,
+      y = interior_y,
+      size = 1.5,
+      color = "grey30"
+    ) +
     
-    # --- INTERIOR SUBSET POINTER & LABEL ---
-    annotate("point", x = centroid_x, y = centroid_y, size = 1.5, color = "grey30") +
-    annotate("segment", x = centroid_x, y = centroid_y, xend = centroid_x, yend = 0.92,
-             color = "grey30", linetype = "solid", linewidth = 0.4) +
-    annotate("text", x = centroid_x, y = 0.95, label = "A['{2,3,4}']", parse = TRUE,
-             hjust = 0.5, vjust = 0, size = 5.5) +
+    # Pointer from the interior to A_{1,2,3}
+    ggplot2::annotate(
+      geom = "segment",
+      x = interior_x,
+      y = interior_y,
+      xend = 0.92,
+      yend = 0.54,
+      color = "grey30",
+      linewidth = 0.4
+    ) +
     
-    # Formatting and Margins
-    coord_fixed(xlim = c(-0.18, s3 + 0.22), ylim = c(-0.08, 1.06)) +
-    theme_void() +
-    theme(plot.margin = margin(5, 5, 5, 5))
+    # Labels
+    ggtext::geom_richtext(
+      data = labels,
+      mapping = ggplot2::aes(
+        x = x,
+        y = y,
+        label = label,
+        hjust = hjust,
+        vjust = vjust,
+        size = size
+      ),
+      fill = NA,
+      label.color = NA,
+      label.padding = grid::unit(0, "pt"),
+      show.legend = FALSE,
+      inherit.aes = FALSE
+    ) +
+    
+    ggplot2::scale_size_identity() +
+    
+    # Preserve triangular geometry with compact margins
+    ggplot2::coord_fixed(
+      xlim = c(-0.20, 1.20),
+      ylim = c(-0.13, h + 0.14),
+      clip = "off"
+    ) +
+    
+    ggplot2::theme_void() +
+    
+    ggplot2::theme(
+      plot.margin = ggplot2::margin(
+        t = 5,
+        r = 5,
+        b = 5,
+        l = 5
+      )
+    )
   
   return(p)
 }
-p <- plot_horizontal_simplex(W)
+
+
+
+p <- plot_vertical_simplex(W)
 print(p)
 
 # Save Vector PDF for JASA Latex Submission
-ggsave("C:/Github/MGPD-simulation/Figures/Lambda_C2.pdf", plot = p, width = 6, height = 5, device = cairo_pdf)
+ggsave("C:/Github/MGPD-simulation/Figures/Lambda_C1.pdf", plot = p, width = 6, height = 5, device = cairo_pdf)
 
