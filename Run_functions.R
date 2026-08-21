@@ -172,6 +172,13 @@ Sigma<- rho <- 0.5
 d <- 4
 Sigma <- matrix(rho, nrow = d, ncol = d)
 diag(Sigma) <- 1
+
+sample_angular_measure_mixture_HR<-function(d,r,Sigma,A,N){
+  final<-replicate(N,sample_W(d , r , Sigma , alpha = NULL ,  A , model = "HR"))
+  return(final)
+}
+
+###Simulation on the clique C1
 A_C1 = A[1:3 ,  ]   
 A_C1 <- A_C1[, colSums(A_C1 != 0) > 0, drop = FALSE]
 Sigma_C1 <- Sigma[1:3 , 1:3]
@@ -179,28 +186,42 @@ list_Sigma_C1 <- list (Sigma_C1, Sigma_C1, Sigma_C1 , Sigma_C1)
 d <- nrow(A_C1)
 r <- ncol(A_C1)
 
-sample_angular_measure_mixture_HR<-function(d,r,Sigma,A,N){
-  final<-replicate(N,sample_W(d , r , Sigma , alpha = NULL ,  A , model = "HR"))
-  return(final)
-}
+
 set.seed(7)
 N <- 100
-W <- t(sample_angular_measure_mixture_HR(d,r,list_Sigma_C1,A_C1,N)) 
+W1 <- t(sample_angular_measure_mixture_HR(d,r,list_Sigma_C1,A_C1,N)) 
+###Simulation on the clique C2
+A_C2 = A[2:4 ,  ]   
+A_C2 <- A_C2[, colSums(A_C2 != 0) > 0, drop = FALSE]
+Sigma_C2 <- Sigma[2:4 , 2:4]
+list_Sigma_C2 <- list (Sigma_C2, Sigma_C2, Sigma_C2 , Sigma_C2)
+d <- nrow(A_C2)
+r <- ncol(A_C2)
+
+
+
+set.seed(7)
+N <- 100
+W2 <- t(sample_angular_measure_mixture_HR(d,r,list_Sigma_C2,A_C2,N)) 
 
 
 #########Plot the angular measure in a simplex
-library(ggplot2)
-intsall.packages("ggtext")
 
 
+###Vertical plot
 plot_vertical_simplex <- function(
-    M,
+    W1,
+    W2,
     point_size = 4.0,
     point_color = "#003366"
 ) {
-  # Check the input
-  if (!is.matrix(M) || ncol(M) != 3) {
-    stop("Input 'M' must be an n x 3 matrix.")
+  # Check the inputs
+  if (!is.matrix(W1) || ncol(W1) != 3) {
+    stop("Input 'W1' must be an n x 3 matrix.")
+  }
+  
+  if (!is.matrix(W2) || ncol(W2) != 3) {
+    stop("Input 'W2' must be an n x 3 matrix.")
   }
   
   # Check required packages
@@ -218,59 +239,116 @@ plot_vertical_simplex <- function(
   # Height of an equilateral triangle
   h <- sqrt(3) / 2
   
-  # Component-to-vertex correspondence:
-  # x1: top vertex
-  # x2: bottom-left vertex
-  # x3: bottom-right vertex
-  pts <- data.frame(
-    x1 = M[, 1],
-    x2 = M[, 2],
-    x3 = M[, 3]
+  # Vertical position of the upper triangle
+  upper_base <- 1.25
+  
+  # ============================================================
+  # Upper triangle: components 1, 2, 3
+  #
+  # Component 1: top
+  # Component 2: bottom-left
+  # Component 3: bottom-right
+  #
+  # Columns of W1 are ordered as 1, 2, 3
+  # ============================================================
+  
+  pts_upper <- data.frame(
+    x1 = W1[, 1],
+    x2 = W1[, 2],
+    x3 = W1[, 3]
   )
   
   # Barycentric transformation
-  #
-  # x1 -> (0.5, h)
-  # x2 -> (0, 0)
-  # x3 -> (1, 0)
-  pts$x_2d <- 0.5 * pts$x1 + pts$x3
-  pts$y_2d <- h * pts$x1
+  pts_upper$x_2d <- 0.5 * pts_upper$x1 + pts_upper$x3
+  pts_upper$y_2d <- upper_base + h * pts_upper$x1
   
-  # Triangle boundary
-  triangle <- data.frame(
+  # Upper triangle boundary
+  triangle_upper <- data.frame(
     x = c(0.5, 0, 1, 0.5),
-    y = c(h, 0, 0, h)
+    y = c(
+      upper_base + h,
+      upper_base,
+      upper_base,
+      upper_base + h
+    )
   )
   
-  # Interior point used for the pointer
-  interior_x <- 0.5
-  interior_y <- h / 3
+  # Interior point for the upper triangle
+  interior_upper_x <- 0.5
+  interior_upper_y <- upper_base + h / 3
   
-  # Construct the calligraphic A
-  cal_A <- intToUtf8(0x1D49C)
+  # ============================================================
+  # Lower triangle: components 2, 3, 4
+  #
+  # Component 2: top-left
+  # Component 3: top-right
+  # Component 4: bottom
+  #
+  # Columns of W2 are ordered as 2, 3, 4
+  # ============================================================
   
-  # Rich-text labels
-  labels <- data.frame(
+  pts_lower <- data.frame(
+    x2 = W2[, 1],
+    x3 = W2[, 2],
+    x4 = W2[, 3]
+  )
+  
+  # Barycentric transformation:
+  #
+  # x2 -> (0, h)
+  # x3 -> (1, h)
+  # x4 -> (0.5, 0)
+  pts_lower$x_2d <- pts_lower$x3 + 0.5 * pts_lower$x4
+  pts_lower$y_2d <- h * (pts_lower$x2 + pts_lower$x3)
+  
+  # Lower triangle boundary
+  triangle_lower <- data.frame(
+    x = c(0, 1, 0.5, 0),
+    y = c(h, h, 0, h)
+  )
+  
+  # Interior point for the lower triangle
+  interior_lower_x <- 0.5
+  interior_lower_y <- 2 * h / 3
+  
+  # ============================================================
+  # Double-struck A corresponding to LaTeX \mathbb{A}
+  # ============================================================
+  
+  bb_A <- intToUtf8(0x1D538)
+  
+  # Label sizes
+  vertex_label_size <- 4.7
+  edge_label_size <- 4.2
+  interior_label_size <- 4.7
+  
+  # ============================================================
+  # Labels for the upper triangle
+  # ============================================================
+  
+  labels_upper <- data.frame(
     x = c(
       0.50,
       -0.04,
       1.04,
-      0.21,
+      0.17,
       0.79,
       0.50,
       0.94
     ),
     y = c(
-      h + 0.04,
-      -0.03,
-      -0.03,
-      h / 2,
-      h / 2,
-      -0.04,
-      0.55
+      upper_base + h + 0.04,
+      upper_base - 0.03,
+      upper_base - 0.03,
+      upper_base + h / 2,
+      upper_base + h / 2,
+      upper_base - 0.04,
+      upper_base + 0.55
     ),
     label = paste0(
-      cal_A,
+      "<span style='font-size:14pt;'>",
+      bb_A,
+      "</span>",
       c(
         "<sub>{1}</sub>",
         "<sub>{2}</sub>",
@@ -300,22 +378,103 @@ plot_vertical_simplex <- function(
       0.5
     ),
     size = c(
-      5.5,
-      5.5,
-      5.5,
-      5.0,
-      5.0,
-      5.0,
-      5.5
-    )
+      vertex_label_size,
+      vertex_label_size,
+      vertex_label_size,
+      edge_label_size,
+      edge_label_size,
+      edge_label_size,
+      interior_label_size
+    ),
+    stringsAsFactors = FALSE
   )
   
+  # ============================================================
+  # Labels for the lower triangle
+  #
+  # Component 2 is at the top-left
+  # Component 3 is at the top-right
+  # Component 4 is at the bottom
+  # ============================================================
+  
+  labels_lower <- data.frame(
+    x = c(
+      -0.04,
+      1.04,
+      0.50,
+      0.17,
+      0.83,
+      0.50,
+      0.94
+    ),
+    y = c(
+      h + 0.03,
+      h + 0.03,
+      -0.05,
+      h / 2,
+      h / 2,
+      h + 0.035,
+      0.31
+    ),
+    label = paste0(
+      "<span style='font-size:14pt;'>",
+      bb_A,
+      "</span>",
+      c(
+        "<sub>{2}</sub>",
+        "<sub>{3}</sub>",
+        "<sub>{4}</sub>",
+        "<sub>{2,4}</sub>",
+        "<sub>{3,4}</sub>",
+        "<sub>{2,3}</sub>",
+        "<sub>{2,3,4}</sub>"
+      )
+    ),
+    hjust = c(
+      1,
+      0,
+      0.5,
+      1,
+      0,
+      0.5,
+      0
+    ),
+    vjust = c(
+      0,
+      0,
+      1,
+      0.5,
+      0.5,
+      0,
+      0.5
+    ),
+    size = c(
+      vertex_label_size,
+      vertex_label_size,
+      vertex_label_size,
+      edge_label_size,
+      edge_label_size,
+      edge_label_size,
+      interior_label_size
+    ),
+    stringsAsFactors = FALSE
+  )
+  
+  # Combine all labels
+  labels <- rbind(
+    labels_upper,
+    labels_lower
+  )
+  
+  # ============================================================
   # Construct the plot
+  # ============================================================
+  
   p <- ggplot2::ggplot() +
     
-    # Outer triangle
+    # Upper triangle
     ggplot2::geom_polygon(
-      data = triangle,
+      data = triangle_upper,
       mapping = ggplot2::aes(
         x = x,
         y = y
@@ -325,9 +484,9 @@ plot_vertical_simplex <- function(
       linewidth = 0.6
     ) +
     
-    # Data points
+    # Simulations W1
     ggplot2::geom_point(
-      data = pts,
+      data = pts_upper,
       mapping = ggplot2::aes(
         x = x_2d,
         y = y_2d
@@ -337,27 +496,71 @@ plot_vertical_simplex <- function(
       alpha = 0.85
     ) +
     
-    # Interior marker
+    # Lower triangle
+    ggplot2::geom_polygon(
+      data = triangle_lower,
+      mapping = ggplot2::aes(
+        x = x,
+        y = y
+      ),
+      fill = "white",
+      color = "black",
+      linewidth = 0.6
+    ) +
+    
+    # Simulations W2
+    ggplot2::geom_point(
+      data = pts_lower,
+      mapping = ggplot2::aes(
+        x = x_2d,
+        y = y_2d
+      ),
+      color = point_color,
+      size = point_size,
+      alpha = 0.85
+    ) +
+    
+    # Upper interior marker
     ggplot2::annotate(
       geom = "point",
-      x = interior_x,
-      y = interior_y,
+      x = interior_upper_x,
+      y = interior_upper_y,
       size = 1.5,
       color = "grey30"
     ) +
     
-    # Pointer from the interior to A_{1,2,3}
+    # Pointer to A_{1,2,3}
     ggplot2::annotate(
       geom = "segment",
-      x = interior_x,
-      y = interior_y,
+      x = interior_upper_x,
+      y = interior_upper_y,
       xend = 0.92,
-      yend = 0.54,
+      yend = upper_base + 0.54,
       color = "grey30",
       linewidth = 0.4
     ) +
     
-    # Labels
+    # Lower interior marker
+    ggplot2::annotate(
+      geom = "point",
+      x = interior_lower_x,
+      y = interior_lower_y,
+      size = 1.5,
+      color = "grey30"
+    ) +
+    
+    # Pointer to A_{2,3,4}
+    ggplot2::annotate(
+      geom = "segment",
+      x = interior_lower_x,
+      y = interior_lower_y,
+      xend = 0.92,
+      yend = 0.32,
+      color = "grey30",
+      linewidth = 0.4
+    ) +
+    
+    # Double-struck A labels
     ggtext::geom_richtext(
       data = labels,
       mapping = ggplot2::aes(
@@ -377,10 +580,13 @@ plot_vertical_simplex <- function(
     
     ggplot2::scale_size_identity() +
     
-    # Preserve triangular geometry with compact margins
+    # Preserve triangular geometry
     ggplot2::coord_fixed(
       xlim = c(-0.20, 1.20),
-      ylim = c(-0.13, h + 0.14),
+      ylim = c(
+        -0.13,
+        upper_base + h + 0.14
+      ),
       clip = "off"
     ) +
     
@@ -399,10 +605,391 @@ plot_vertical_simplex <- function(
 }
 
 
+p <- plot_vertical_simplex(
+  W1 = W1,
+  W2 = W2
+)
 
-p <- plot_vertical_simplex(W)
 print(p)
 
-# Save Vector PDF for JASA Latex Submission
-ggsave("C:/Github/MGPD-simulation/Figures/Lambda_C1.pdf", plot = p, width = 6, height = 5, device = cairo_pdf)
 
+#########Horizental plot
+
+plot_horizontal_simplex <- function(
+    W1,
+    W2,
+    point_size = 4.0,
+    point_color = "#003366"
+) {
+  # Check the inputs
+  if (!is.matrix(W1) || ncol(W1) != 3) {
+    stop("Input 'W1' must be an n x 3 matrix.")
+  }
+  
+  if (!is.matrix(W2) || ncol(W2) != 3) {
+    stop("Input 'W2' must be an n x 3 matrix.")
+  }
+  
+  # Check required packages
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Package 'ggplot2' is required.")
+  }
+  
+  if (!requireNamespace("ggtext", quietly = TRUE)) {
+    stop(
+      "Package 'ggtext' is required. Install it with ",
+      "install.packages('ggtext')."
+    )
+  }
+  
+  # Horizontal height of an equilateral triangle
+  h <- sqrt(3) / 2
+  
+  # Horizontal shift of the right triangle
+  right_shift <- 1.18
+  
+  # ============================================================
+  # Left triangle: components 1, 2, 3
+  #
+  # Component 1: left apex
+  # Component 2: top-right
+  # Component 3: bottom-right
+  #
+  # Columns of W1 are ordered as 1, 2, 3
+  # ============================================================
+  
+  pts_left <- data.frame(
+    x1 = W1[, 1],
+    x2 = W1[, 2],
+    x3 = W1[, 3]
+  )
+  
+  # Barycentric transformation:
+  # x1 -> (0, 0.5)
+  # x2 -> (h, 1)
+  # x3 -> (h, 0)
+  pts_left$x_2d <- h * (pts_left$x2 + pts_left$x3)
+  pts_left$y_2d <- 0.5 * pts_left$x1 + pts_left$x2
+  
+  triangle_left <- data.frame(
+    x = c(0, h, h, 0),
+    y = c(0.5, 1, 0, 0.5)
+  )
+  
+  interior_left_x <- 2 * h / 3
+  interior_left_y <- 0.5
+  
+  # ============================================================
+  # Right triangle: components 2, 3, 4
+  #
+  # Component 2: top-left
+  # Component 3: bottom-left
+  # Component 4: right apex
+  #
+  # Columns of W2 are ordered as 2, 3, 4
+  # ============================================================
+  
+  pts_right <- data.frame(
+    x2 = W2[, 1],
+    x3 = W2[, 2],
+    x4 = W2[, 3]
+  )
+  
+  # Barycentric transformation:
+  # x2 -> (right_shift, 1)
+  # x3 -> (right_shift, 0)
+  # x4 -> (right_shift + h, 0.5)
+  pts_right$x_2d <- right_shift + h * pts_right$x4
+  pts_right$y_2d <- pts_right$x2 + 0.5 * pts_right$x4
+  
+  triangle_right <- data.frame(
+    x = c(
+      right_shift,
+      right_shift,
+      right_shift + h,
+      right_shift
+    ),
+    y = c(1, 0, 0.5, 1)
+  )
+  
+  interior_right_x <- right_shift + h / 3
+  interior_right_y <- 0.5
+  
+  # ============================================================
+  # Double-struck A corresponding to LaTeX \mathbb{A}
+  # ============================================================
+  
+  bb_A <- intToUtf8(0x1D538)
+  
+  # Label sizes
+  vertex_label_size <- 4.7
+  edge_label_size <- 4.2
+  interior_label_size <- 4.7
+  
+  # ============================================================
+  # Labels for the left triangle
+  # ============================================================
+  
+  labels_left <- data.frame(
+    x = c(
+      -0.05,
+      h + 0.04,
+      h + 0.04,
+      h / 2 - 0.03,
+      h / 2 - 0.03,
+      h + 0.04,
+      0.43
+    ),
+    y = c(
+      0.50,
+      1.03,
+      -0.03,
+      0.78,
+      0.22,
+      0.50,
+      1.08
+    ),
+    label = paste0(
+      "<span style='font-size:14pt;'>",
+      bb_A,
+      "</span>",
+      c(
+        "<sub>{1}</sub>",
+        "<sub>{2}</sub>",
+        "<sub>{3}</sub>",
+        "<sub>{1,2}</sub>",
+        "<sub>{1,3}</sub>",
+        "<sub>{2,3}</sub>",
+        "<sub>{1,2,3}</sub>"
+      )
+    ),
+    hjust = c(
+      1,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0.5
+    ),
+    vjust = c(
+      0.5,
+      0,
+      1,
+      0.5,
+      0.5,
+      0.5,
+      0
+    ),
+    size = c(
+      vertex_label_size,
+      vertex_label_size,
+      vertex_label_size,
+      edge_label_size,
+      edge_label_size,
+      edge_label_size,
+      interior_label_size
+    ),
+    stringsAsFactors = FALSE
+  )
+  
+  # ============================================================
+  # Labels for the right triangle
+  # ============================================================
+  
+  labels_right <- data.frame(
+    x = c(
+      right_shift - 0.04,
+      right_shift - 0.04,
+      right_shift + h + 0.05,
+      right_shift - 0.04,
+      right_shift + h / 2 + 0.03,
+      right_shift + h / 2 + 0.03,
+      right_shift + 0.43
+    ),
+    y = c(
+      1.03,
+      -0.03,
+      0.50,
+      0.50,
+      0.78,
+      0.22,
+      1.08
+    ),
+    label = paste0(
+      "<span style='font-size:14pt;'>",
+      bb_A,
+      "</span>",
+      c(
+        "<sub>{2}</sub>",
+        "<sub>{3}</sub>",
+        "<sub>{4}</sub>",
+        "<sub>{2,3}</sub>",
+        "<sub>{2,4}</sub>",
+        "<sub>{3,4}</sub>",
+        "<sub>{2,3,4}</sub>"
+      )
+    ),
+    hjust = c(
+      1,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0.5
+    ),
+    vjust = c(
+      0,
+      1,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0
+    ),
+    size = c(
+      vertex_label_size,
+      vertex_label_size,
+      vertex_label_size,
+      edge_label_size,
+      edge_label_size,
+      edge_label_size,
+      interior_label_size
+    ),
+    stringsAsFactors = FALSE
+  )
+  
+  labels <- rbind(
+    labels_left,
+    labels_right
+  )
+  
+  # ============================================================
+  # Construct the plot
+  # ============================================================
+  
+  p <- ggplot2::ggplot() +
+    
+    # Left triangle
+    ggplot2::geom_polygon(
+      data = triangle_left,
+      mapping = ggplot2::aes(x = x, y = y),
+      fill = "white",
+      color = "black",
+      linewidth = 0.6
+    ) +
+    
+    # Simulations W1
+    ggplot2::geom_point(
+      data = pts_left,
+      mapping = ggplot2::aes(x = x_2d, y = y_2d),
+      color = point_color,
+      size = point_size,
+      alpha = 0.85
+    ) +
+    
+    # Right triangle
+    ggplot2::geom_polygon(
+      data = triangle_right,
+      mapping = ggplot2::aes(x = x, y = y),
+      fill = "white",
+      color = "black",
+      linewidth = 0.6
+    ) +
+    
+    # Simulations W2
+    ggplot2::geom_point(
+      data = pts_right,
+      mapping = ggplot2::aes(x = x_2d, y = y_2d),
+      color = point_color,
+      size = point_size,
+      alpha = 0.85
+    ) +
+    
+    # Interior marker for the left triangle
+    ggplot2::annotate(
+      geom = "point",
+      x = interior_left_x,
+      y = interior_left_y,
+      size = 1.5,
+      color = "grey30"
+    ) +
+    
+    # Pointer to A_{1,2,3}
+    ggplot2::annotate(
+      geom = "segment",
+      x = interior_left_x,
+      y = interior_left_y,
+      xend = 0.43,
+      yend = 1.04,
+      color = "grey30",
+      linewidth = 0.4
+    ) +
+    
+    # Interior marker for the right triangle
+    ggplot2::annotate(
+      geom = "point",
+      x = interior_right_x,
+      y = interior_right_y,
+      size = 1.5,
+      color = "grey30"
+    ) +
+    
+    # Pointer to A_{2,3,4}
+    ggplot2::annotate(
+      geom = "segment",
+      x = interior_right_x,
+      y = interior_right_y,
+      xend = right_shift + 0.43,
+      yend = 1.04,
+      color = "grey30",
+      linewidth = 0.4
+    ) +
+    
+    # Double-struck A labels
+    ggtext::geom_richtext(
+      data = labels,
+      mapping = ggplot2::aes(
+        x = x,
+        y = y,
+        label = label,
+        hjust = hjust,
+        vjust = vjust,
+        size = size
+      ),
+      fill = NA,
+      label.color = NA,
+      label.padding = grid::unit(0, "pt"),
+      show.legend = FALSE,
+      inherit.aes = FALSE
+    ) +
+    
+    ggplot2::scale_size_identity() +
+    
+    # Preserve the simplex geometry
+    ggplot2::coord_fixed(
+      xlim = c(-0.22, right_shift + h + 0.30),
+      ylim = c(-0.13, 1.18),
+      clip = "off"
+    ) +
+    
+    ggplot2::theme_void() +
+    
+    ggplot2::theme(
+      plot.margin = ggplot2::margin(
+        t = 5,
+        r = 5,
+        b = 5,
+        l = 5
+      )
+    )
+  
+  return(p)
+}
+
+p <- plot_horizontal_simplex(
+       W1 = W1,
+       W2 = W2
+   )
+print(p)
