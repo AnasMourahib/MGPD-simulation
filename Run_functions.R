@@ -735,7 +735,7 @@ plot_horizontal_simplex <- function(
       -0.05,
       h + 0.04,
       h + 0.04,
-      h / 2 - 0.03,
+      h / 2 - 0.08,
       h / 2 - 0.03,
       h + 0.04,
       0.43
@@ -750,17 +750,18 @@ plot_horizontal_simplex <- function(
       1.08
     ),
     label = paste0(
-      "<span style='font-size:14pt;'>",
+      "<span style='font-size:18pt;'>",
       bb_A,
       "</span>",
+      "<span style='font-size:10pt;'>&#8239;",
       c(
-        "<sub>{1}</sub>",
-        "<sub>{2}</sub>",
-        "<sub>{3}</sub>",
-        "<sub>{1,2}</sub>",
-        "<sub>{1,3}</sub>",
-        "<sub>{2,3}</sub>",
-        "<sub>{1,2,3}</sub>"
+        "<sub>{1}</sub></span>",
+        "<sub>{2}</sub></span>",
+        "<sub>{3}</sub></span>",
+        "<sub>{1,2}</sub></span>",
+        "<sub>{1,3}</sub></span>",
+        "<sub>{2,3}</sub></span>",
+        "<sub>{1,2,3}</sub></span>"
       )
     ),
     hjust = c(
@@ -817,17 +818,18 @@ plot_horizontal_simplex <- function(
       1.08
     ),
     label = paste0(
-      "<span style='font-size:14pt;'>",
+      "<span style='font-size:18pt;'>",
       bb_A,
       "</span>",
+      "<span style='font-size:10pt;'>&#8239;",
       c(
-        "<sub>{2}</sub>",
-        "<sub>{3}</sub>",
-        "<sub>{4}</sub>",
-        "<sub>{2,3}</sub>",
-        "<sub>{2,4}</sub>",
-        "<sub>{3,4}</sub>",
-        "<sub>{2,3,4}</sub>"
+        "<sub>{2}</sub></span>",
+        "<sub>{3}</sub></span>",
+        "<sub>{4}</sub></span>",
+        "<sub>{2,3}</sub></span>",
+        "<sub>{2,4}</sub></span>",
+        "<sub>{3,4}</sub></span>",
+        "<sub>{2,3,4}</sub></span>"
       )
     ),
     hjust = c(
